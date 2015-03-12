@@ -3,22 +3,15 @@
 
 #include <object.h>
 #include <stdint.h>
-typedef struct {
-	uint8_t x;
-	uint8_t y;
-}	Position;
+#include <navigation.h>
 
-typedef struct {
-	uint8_t xdim;
-	uint8_t ydim;
-} Dimensions;
+using nav::Position;
 
 class Cell {
 private:
 	bool vacancy;
 
 	Position position;
-	Dimensions dimensions;
 	Object* occupant;
 
 public:
@@ -27,7 +20,6 @@ public:
 	Cell(Position, Object*);
 
 	Position getPosition() const;
-	Dimensions getDimensions() const;
 	Object* getOccupant() const;
 
 	bool isVacant() const;

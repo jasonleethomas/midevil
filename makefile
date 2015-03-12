@@ -6,18 +6,19 @@ SRC=./src
 BIN=./bin
 LOG=./log.txt
 
-all: 
+all:
 	g++ ./src/debug/*.cpp -c -I$(INC)
+	mv ./*.o $(LNK)
 
 debug: SRC:=./src/debug
-debug: 
-	g++ $(SRC)/*.cpp -c -I$(INC); \
-	mv *.o $(LNK)
+debug:
+	g++ $(SRC)/*.cpp -c -I$(INC)
+	mv ./*.o $(LNK)
 
 release: SRC:=./src/release
 release: 
-	g++ $(SRC)/*.cpp -c -$(INC); \
-	mv *.o $(LNK)
+	g++ $(SRC)/*.cpp -c -$(INC)
+	mv ./*.o $(LNK)
 
 clean:
-	rm *.o	
+	find . -name '*~' -delete	

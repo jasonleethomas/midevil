@@ -7,6 +7,8 @@
 enum Boundaries {MIN_AREA = 9, MAX_AREA = 100, DEF_AREA = 100};
 
 class Arena {
+private:
 	Cell** cells;
+public:
 };
 #endif
