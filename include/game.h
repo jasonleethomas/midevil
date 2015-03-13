@@ -9,23 +9,20 @@
 #include <stdint.h>
 #include <json/json.h>
 
-#include <arena.h>
 #include <player.h>
-#include <round.h>
+#include <arena.h>
 
 class Game {
 private:
-	static Game* game;
-
 	Player* players;
-	Round* rounds;
+	Arena* arena;
 
 	Game();
 	Game(Game const& copy);
 	Game& operator=(Game const& copy);
 
 public:
-	static Game* newGame();
+	static Game* getGame();
 
 	bool begin();
 	bool end();

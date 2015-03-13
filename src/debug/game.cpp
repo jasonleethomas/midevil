@@ -5,13 +5,10 @@ Game::Game() {};
 Game::Game(Game const& copy) {};
 Game& Game::operator=(Game const& copy) {};
 
-Game* Game::game = 0;
+Game* Game::getGame() {
+	static Game game;
 
-Game* Game::newGame() {
-	if(game == 0)
-		game = new Game;
-
-	return game;
+	return &game;
 }
 
 bool Game::begin() {}

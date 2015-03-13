@@ -1,13 +1,14 @@
-#include <cell.h>
-#include <navigation.h>
-#include <object.h>
 #include <stdint.h>
+#include <navigate.h>
+#include <object.h>
+#include <cell.h>
 
-using nav::Position;
+using navigate::Position;
 
 Cell::Cell() {
 	this->vacancy = true;
-	this->position = {0,0};
+	this->position.x = 0;
+	this->position.y = 0;
 	this->occupant = 0;
 }
 

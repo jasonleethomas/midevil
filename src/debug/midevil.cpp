@@ -3,7 +3,7 @@
 #include <game.h>
 
 int main() {
-	Game* test = Game::newGame();
+	Game* test = Game::getGame();
 
 	return 0;
 }

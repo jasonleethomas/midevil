@@ -21,5 +21,5 @@ release:
 	mv ./*.o $(BLD)
 
 clean:
-	rm $(BLD)/*.o 
+	find . -name '*.o' -delete
 	find . -name '*~' -delete	

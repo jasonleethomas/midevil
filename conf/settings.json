@@ -5,138 +5,122 @@
 
 			"second": {},
 
-			"computer": {},
+			"computer": {}
 		},
 
 		"round": {
 			"arena": {
 				"dimensions": {
 					"xdim":,
-					"ydim":,
+					"ydim":
 				},
 
 				"cell": {
 					"dimensions": {
 						"xdim":,
 						"ydim":,
-						"zdim":,
+						"zdim":
 					}
 				},
 			
-
 			},
 
 		},
 
 		"object": {
 			"character": {
+
+				"dragon": {
+					"attributes": {
+						"range": 5,
+						"speed": 5
+					},
+					
+					"sprite":
+				},
+
 				"warrior": {
 					"grand": {
 						"attributes": {
-							"damage": 5,
-							"health": 5,
 							"range": 2,
-							"speed": 3,
+							"speed": 3
 						},
 
-						"price": 15,
-						"sprite":,
+						"sprite":
 					},
 
 					"master": {
 						"attributes": {
-							"damage": 3,
-							"health": 3,
 							"range": 2,
-							"speed": 2,
+							"speed": 2
 						},
 
-						"price": 10,
-						"sprite":,
+						"sprite":
 
 					},
 
 					"light": {
 						"attributes": {
-							"damage":	1,
-							"health":	2,
 							"range": 1,
-							"speed": 1,
+							"speed": 1
 						},
 
-						"price": 5,
-						"sprite":,
+						"sprite":
 					},
 
 					"dark": {
 						"attributes": {
-							"damage":	2,
-							"health":	1,
 							"range": 1,
-							"speed": 1,
+							"speed": 1
 						},
 
-						"price": 5,
-						"sprite":,
+						"sprite":
 					}
 				},
 
 				"wizards": {			
 					"grand": {
 						"attributes": {
-							"damage": 2,
-							"health": 3,
 							"range": 5,
-							"speed": 5,
+							"speed": 5
 						},
 
-						"price": 15,
-						"sprite":,
+						"sprite":
 
 					},
 
 					"dark": {
 						"attributes": {
-							"damage": 2,
-							"health": 2,
 							"range": 3,
-							"speed": 3,
+							"speed": 3
 						},
 
-						"price": 15,
-						"sprite":,
+						"sprite":
 					},
 
 					"light": {
 						"attributes": {
-							"damage": 1,
-							"health": 1,
 							"range": 1,
-							"speed": 2,
+							"speed": 2
 						},
 
-						"price": 5,
-						"sprite":,
+						"sprite":
 					},
 			
 					"dark": {
 						"attributes": {
-							"damage": 1,
-							"health": 1,
 							"range": 2,
-							"speed": 1,
+							"speed": 1
 						},
 
-						"price": 5,
-						"sprite":,
+						"sprite":
 					}			
 			},
 
 			"obstacle": {
-				"dragon": {},
 				"boulder": {},
-				"portal": {},
-			},	
+				"portal": {}
+			}	
 		}
 	}
 }

@@ -1,23 +1,26 @@
 #ifndef CHARACTER_H
 #define CHARACTER_H
 
-#include <object.h>
-#include <cell.h>
 #include <stdint.h>
+#include <navigate.h>
+#include <classify.h>
+#include <object.h>
+
+using classify::Level;
+using classify::Type;
+using navigate::Position;
 
 class Character : public Object {
 private:
-	static uint16_t count = 0;
-
-	uint16_t cost;
-	uint16_t health;
-	uint16_t speed;
-	uint16_t damage;
-	uint16_t range;
+	Type type;
+	Level level;
 
 public:
-	bool attack();
-	bool defend();
-	bool move();
+	Character();
+	Character(Position, Type, Level);
+
+	virtual bool movedBy(Character*);
+	virtual void moveTo(Position);
 };
+
 #endif

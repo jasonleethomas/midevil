@@ -1,11 +1,11 @@
 #ifndef CELL_H
 #define CELL_H
 
-#include <object.h>
 #include <stdint.h>
-#include <navigation.h>
+#include <navigate.h>
+#include <object.h>
 
-using nav::Position;
+using navigate::Position;
 
 class Cell {
 private:
@@ -25,6 +25,5 @@ public:
 	bool isVacant() const;
 	bool occupy(Object*);
 	bool vacate();
-
 };
 #endif
