@@ -5,21 +5,21 @@
 #include <navigate.h>
 #include <object.h>
 
-using navigate::Position;
+using navigate::Point;
 
 class Cell {
 private:
 	bool vacancy;
 
-	Position position;
+	Point position;
 	Object* occupant;
 
 public:
 	Cell();	
-	Cell(Position);
-	Cell(Position, Object*);
+	Cell(Point);
+	Cell(Point, Object*);
 
-	Position getPosition() const;
+	Point getPosition() const;
 	Object* getOccupant() const;
 
 	bool isVacant() const;

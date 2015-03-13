@@ -5,7 +5,7 @@
 #include <json/json.h>
 #include <navigate.h>
 
-using navigate::Position;
+using navigate::Point;
 using std::string;
 
 class Object {
@@ -15,15 +15,15 @@ private:
 	string genId();
 
 protected:	
-	Position position;
+	Point position;
 	
 public:
 	static int getCount();
 
 	Object();
-	Object(Position);
+	Object(Point);
 
-	Position getPosition() const;
+	Point getPosition() const;
 	string getId() const;
 
 };

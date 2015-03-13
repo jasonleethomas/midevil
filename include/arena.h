@@ -5,21 +5,22 @@
 #include <object.h>
 #include <cell.h>
 
-using navigate::Dimensions;
+using navigate::Point;
 
 class Arena {
-private:
+private:	
+	Point dimensions;
 	Cell** cells;
 
 	Arena();
-	Arena(Dimensions);
+	Arena(Point);
 
 	Arena(const Arena& copy);
 	Arena& operator=(const Arena& copy);
 	
 public:
 	static Arena* getArena();
-	static Arena* getArena(Dimensions);
+	static Arena* getArena(Point);
 
 };
 #endif

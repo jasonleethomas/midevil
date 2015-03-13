@@ -3,7 +3,7 @@
 #include <object.h>
 #include <cell.h>
 
-using navigate::Position;
+using navigate::Point;
 
 Cell::Cell() {
 	this->vacancy = true;
@@ -12,13 +12,13 @@ Cell::Cell() {
 	this->occupant = 0;
 }
 
-Cell::Cell(Position position) {
+Cell::Cell(Point position) {
 	this->vacancy = true;
 	this->position = position;
 	this->occupant = 0;
 }
 
-Cell::Cell(Position position, Object* object) {
+Cell::Cell(Point position, Object* object) {
 	this->vacancy = false;	
 	this->position = position;
 	this->occupant = object;
@@ -41,7 +41,7 @@ bool Cell::vacate() {
 	this->vacancy = true;
 }
 
-Position Cell::getPosition() const {
+Point Cell::getPosition() const {
 	return this->position;
 }
 

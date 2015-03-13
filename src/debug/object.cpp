@@ -2,7 +2,7 @@
 #include <navigate.h>
 #include <object.h>
 
-using navigate::Position;
+using navigate::Point;
 using std::string;
 
 Object::Object() {
@@ -11,12 +11,12 @@ Object::Object() {
 	this->position.y = 0;
 }
 
-Object::Object(Position position) {
+Object::Object(Point position) {
 	this->id = genId();
 	this->position = position;
 }
 
-Position Object::getPosition() const {
+Point Object::getPosition() const {
 	return this->position;
 }
 

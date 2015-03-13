@@ -7,7 +7,7 @@
 class Obstacle : public Object {
 public:
 	Obstacle();
-	Obstacle(navigate::Position);
+	Obstacle(navigate::Point);
 };
 #endif
 

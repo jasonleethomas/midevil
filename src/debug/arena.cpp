@@ -3,8 +3,8 @@
 #include <cell.h>
 #include <arena.h>
 
-using navigate::Dimensions;
+using navigate::Point;
 
 Arena::Arena() {
-	
+
 }

@@ -4,4 +4,4 @@
 
 Obstacle::Obstacle() : Object() {}
 
-Obstacle::Obstacle(navigate::Position position) : Object(position) {}
+Obstacle::Obstacle(navigate::Point position) : Object(position) {}

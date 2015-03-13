@@ -8,7 +8,7 @@
 
 using classify::Level;
 using classify::Type;
-using navigate::Position;
+using navigate::Point;
 
 class Character : public Object {
 private:
@@ -17,10 +17,10 @@ private:
 
 public:
 	Character();
-	Character(Position, Type, Level);
+	Character(Point, Type, Level);
 
 	virtual bool movedBy(Character*);
-	virtual void moveTo(Position);
+	virtual void moveTo(Point);
 };
 
 #endif

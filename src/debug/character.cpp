@@ -6,11 +6,11 @@
 
 using classify::Level;
 using classify::Type;
-using navigate::Position;
+using navigate::Point;
 
 Character::Character() : Object() {}
 
-Character::Character(Position position, Type type, Level level) 
+Character::Character(Point position, Type type, Level level) 
 	: Object(position) {
 
 	this->type = type;
@@ -26,6 +26,6 @@ bool Character::movedBy(Character* object) {
 	return false;
 }
 
-void Character::moveTo(Position position) {
+void Character::moveTo(Point position) {
 	this->position = position;
 }
