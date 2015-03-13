@@ -3,7 +3,7 @@ INC=./include
 LIB=./libs
 BLD=./build
 SRC=./src
-BIN=./bin
+BIN=./bin/midevil
 LOG=./log.txt
 
 all:
@@ -12,10 +12,10 @@ all:
 
 debug: SRC:=./src/debug
 debug:
-	g++ $(SRC)/*.cpp -c -I$(INC)
-	mv ./*.o $(BLD)
+	g++ $(SRC)/*.cpp -I$(INC) -o $(BIN)
+	valgrind --tool=memcheck --leak-check=full $(BIN)
 
-release: SRC:=./src/release
+release: SRC:=./src/release/midevil.cpp
 release: 
 	g++ $(SRC)/*.cpp -c -$(INC)
 	mv ./*.o $(BLD)

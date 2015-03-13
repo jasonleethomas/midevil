@@ -16,10 +16,16 @@ Object::Object(Point position) {
 	this->position = position;
 }
 
+
 Point Object::getPosition() const {
 	return this->position;
 }
 
 string Object::getId() const {
 	return this->id;
+}
+
+
+string Object::genId() {
+	return "";
 }

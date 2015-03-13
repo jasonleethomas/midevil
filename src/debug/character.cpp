@@ -17,15 +17,24 @@ Character::Character(Point position, Type type, Level level)
 	this->level = level;			
 }
 
-bool Character::movedBy(Character* object) {
-	if(this->type == object->type) {
-		if(this->level <= object->level) 
+bool Character::movedBy(Object* object) {
+	Character* opponent = (Character*) object;
+	if(this->type == opponent->type) {
+		if(this->level <= opponent->level) 
 			return true;
 	}
 
 	return false;
 }
 
+bool Character::reactTo(Object* object) {
+	return true;
+}
+
 void Character::moveTo(Point position) {
 	this->position = position;
+}
+
+char Character::display() {
+	return 'C';
 }

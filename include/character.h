@@ -19,8 +19,12 @@ public:
 	Character();
 	Character(Point, Type, Level);
 
-	virtual bool movedBy(Character*);
+	virtual bool movedBy(Object*);
+	virtual bool reactTo(Object*);
 	virtual void moveTo(Point);
+	virtual char display();
+
+	virtual ~Character() {}
 };
 
 #endif

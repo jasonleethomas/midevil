@@ -26,6 +26,11 @@ public:
 	Point getPosition() const;
 	string getId() const;
 
+	virtual bool movedBy(Object*) = 0;
+	virtual bool reactTo(Object*) = 0;
+	virtual char display() = 0;
+
+	virtual ~Object() {};
 };
 
 #endif
