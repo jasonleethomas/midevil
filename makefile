@@ -13,7 +13,7 @@ all:
 debug: SRC:=./src/debug
 debug:
 	g++ $(SRC)/*.cpp -I$(INC) -o $(BIN)
-	valgrind --tool=memcheck --leak-check=full $(BIN)
+	valgrind --tool=memcheck --leak-check=full -v $(BIN)
 
 release: SRC:=./src/release/midevil.cpp
 release: 

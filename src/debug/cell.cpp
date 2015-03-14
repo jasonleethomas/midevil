@@ -50,8 +50,7 @@ Point Cell::getPosition() const {
 	return this->position;
 }
 
-Object* Cell::getOccupant() const {
+Object* Cell::getOccupant() {
 	return this->occupant;
 }
-
 

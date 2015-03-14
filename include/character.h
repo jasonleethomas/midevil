@@ -12,6 +12,7 @@ using navigate::Point;
 
 class Character : public Object {
 private:
+	static int count;
 	Type type;
 	Level level;
 
@@ -22,7 +23,7 @@ public:
 	virtual bool movedBy(Object*);
 	virtual bool reactTo(Object*);
 	virtual void moveTo(Point);
-	virtual char display();
+	virtual string toString();
 
 	virtual ~Character() {}
 };

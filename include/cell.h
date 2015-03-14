@@ -20,7 +20,7 @@ public:
 	Cell(Point, Object*);
 
 	Point getPosition() const;
-	Object* getOccupant() const;
+	Object* getOccupant();
 
 	bool isVacant() const;
 	bool occupy(Object*);

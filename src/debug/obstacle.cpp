@@ -14,6 +14,6 @@ bool Obstacle::reactTo(Object* object) {
 	return false;
 }
 
-char Obstacle::display() {
-	return 'O';
+string Obstacle::toString() {
+	return "X";
 }

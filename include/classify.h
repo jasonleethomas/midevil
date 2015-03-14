@@ -3,7 +3,7 @@
 
 namespace classify {
 	enum Level { Novice, Master, Grand };
-	enum Type { Warrior, Mage };
+	enum Type { Warrior, Wizard };
 }
 
 #endif
