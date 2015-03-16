@@ -24,7 +24,7 @@ public:
 
 	bool isVacant() const;
 	bool occupy(Object*);
-	bool vacate();
+	void vacate();
 
 	~Cell();
 };

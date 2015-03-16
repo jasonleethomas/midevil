@@ -25,7 +25,6 @@ string Object::getId() const {
 	return this->id;
 }
 
-
 string Object::genId() {
 	return "";
 }

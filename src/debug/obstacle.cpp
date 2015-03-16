@@ -4,7 +4,9 @@
 
 Obstacle::Obstacle() : Object() {}
 
-Obstacle::Obstacle(navigate::Point position) : Object(position) {}
+Obstacle::Obstacle(navigate::Point position) : Object(position) {
+
+}
 
 bool Obstacle::movedBy(Object* object) {
 	return false;

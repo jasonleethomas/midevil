@@ -20,7 +20,6 @@ using navigate::maxBoundary;
 
 namespace occupants {
 	vector<Point> occupiedPoints;
-	vector<Character*> displacedObjects;
 }
 
 namespace error {
@@ -28,68 +27,59 @@ namespace error {
 	string message;
 }
 
-void displayArena(Cell***, Point);
-void deleteArena(Cell***, Point);
-void occupyArena(Cell***, Point);
-bool shuffleArena(Cell***);
+bool shuffleArena(Cell (*)[][maxBoundary.y]);
+void displayArena(Cell (*)[][maxBoundary.y], Point maxBoundary);
+void deleteArena(Cell (*)[][maxBoundary.y], Point maxBoundary);	
+void occupyArena(Cell (*)[][maxBoundary.y], Point maxBoundary);
 
 int main() {
 	srand(time(NULL));
 
-	Cell*** arena	= new Cell**[maxBoundary.x];
+	Cell* arena[maxBoundary.x][maxBoundary.y];
 
 	occupyArena(arena, maxBoundary);
 	displayArena(arena, maxBoundary);
 
 	for(uint8_t tick = 0; tick < 20; tick++) {
 		shuffleArena(arena);
-		displayArena(arena, maxBoundary);
 		sleep(1);
 	}
 
+	displayArena(arena, maxBoundary);
 	deleteArena(arena, maxBoundary);
 
 	return 0;
 }
 
-bool shuffleArena(Cell*** arena) {
+bool shuffleArena(Cell (*arena)[][maxBoundary.y]) {
 	using occupants::occupiedPoints;	
-	using occupants::displacedObjects;
+	
+	for(uint8_t i = 0; i < occupiedPoints.size()-1; i++) {
 
-	vector<Point>::iterator thisPoint = occupiedPoints.begin();
-	for(; thisPoint != occupiedPoints.end(); thisPoint++) {
-
-		Point thatPoint = {
-			rand() % (maxBoundary.x),
-			rand() % (maxBoundary.y)
+		Point thisPoint = {
+			occupiedPoints[i].x,
+			occupiedPoints[i].y
 		};
 
-		Cell* thisCell = arena[thisPoint->x][thisPoint->y];
+		Point thatPoint = {
+			rand() % maxBoundary.x,
+			rand() % maxBoundary.y
+		};
+
+		Cell* thisCell = arena[thisPoint.x][thisPoint.y];
 		Cell* thatCell = arena[thatPoint.x][thatPoint.y];
 
-		Character* thisObject = (Character*) thisCell->getOccupant();
+		Character thisObject = (Character*) thisCell->getOccupant();
 
 		if(thatCell->isVacant()) {
 			thisObject->moveTo(thatPoint);	
-			thisPoint->x = thatPoint.x;
-			thisPoint->y = thatPoint.y;
+			//thatCell->occupy(thisObject);
 			thisCell->vacate();	
-			thatCell->occupy(thisObject);
-		}
-		else {
-			Character* thatObject = (Character*) thatCell->getOccupant();
-			if(thatObject->movedBy(thatObject)) {
-				thisObject->moveTo(thatPoint);
-				thisPoint->x = thatPoint.x;
-				thisPoint->y = thatPoint.y;
-				thisCell->vacate();
-				thatCell->occupy(thisObject);
-			}
 		}
 	}
 }
 
-void displayArena(Cell*** arena, Point maxBoundary) {
+void displayArena(Cell (*arena)[][maxBoundary.y], Point maxBoundary) {
 	std::cout << std::endl;
 	for(uint8_t x = 0; x < maxBoundary.x; x++) {
 		for(uint8_t y = 0; y < maxBoundary.y; y++) {
@@ -102,7 +92,7 @@ void displayArena(Cell*** arena, Point maxBoundary) {
 	}
 }
 
-void deleteArena(Cell*** arena, Point maxBoundary) {	
+void deleteArena(Cell (*arena)[][maxBoundary.y], Point maxBoundary) {	
 	for(uint8_t x = 0; x < maxBoundary.x; x++) {
 		for(uint8_t y = 0; y < maxBoundary.y; y++) {
 			Object* occupant = arena[x][y]->getOccupant();
@@ -110,31 +100,25 @@ void deleteArena(Cell*** arena, Point maxBoundary) {
 				delete occupant;
 			delete arena[x][y];
 		}
-		delete [] arena[x];
 	}	
-	delete[] arena;
 }	
 
-void occupyArena(Cell*** arena, Point maxBoundary) {
-	using occupants::occupiedPoints;	
+void occupyArena(Cell (*arena)[][maxBoundary.y], Point maxBoundary) {
 	for(uint8_t x = 0; x < maxBoundary.x; x++) {
-		arena[x] = new Cell*[maxBoundary.y];
-
 		for(uint8_t y = 0; y < maxBoundary.y; y++) {
 			Point here = {x, y};
 			int cellType = rand() % 10;
 
-			if(cellType > 5) {
+			if(cellType > 5) 
 				arena[x][y] = new Cell(here);
-			}
-			else if(cellType < 1) {
+			else if(cellType < 1) 
 				arena[x][y] = new Cell(here, new Obstacle(here));
-			}
 			else {
-				arena[x][y] = new Cell(here, new Character(here,
-				 (Type)(cellType % 2), (Level) cellType ));
+				arena[x][y] = new Cell(here, 
+					new Character(here, (Type)(cellType % 2),
+					 (Level) cellType));
 							
-				occupiedPoints.push_back(here);
+				occupants::occupiedPoints.push_back(here);
 			}
 		}
 	}
