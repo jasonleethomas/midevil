@@ -22,9 +22,9 @@ public:
 	static Arena* getArena();
 	static Arena* getArena(Point);
 
+	void settings();
 	void create();
 	void destroy();
-	void settings();
 	void shuffle();
 	void toString();
 };

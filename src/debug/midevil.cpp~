@@ -79,7 +79,7 @@ bool shuffleArena(Cell*** arena) {
 		}
 		else {
 			Character* thatObject = (Character*) thatCell->getOccupant();
-			if(thatObject->movedBy(thisObject)) {
+			if(thatObject->movedBy(thatObject)) {
 				thisObject->moveTo(thatPoint);
 				thisPoint->x = thatPoint.x;
 				thisPoint->y = thatPoint.y;

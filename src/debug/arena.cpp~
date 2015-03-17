@@ -18,6 +18,16 @@ using classify::Type;
 using navigate::Point;
 using navigate::maxBoundary;
 
+namespace occupants {
+	vector<Point> occupiedPoints;
+	vector<Character*> displacedObjects;
+}
+
+namespace error {
+	bool flag = false;
+	string message;
+}
+
 Arena::Arena() {
 	this->dimensions = maxBoundary;
 }

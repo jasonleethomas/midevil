@@ -16,6 +16,7 @@ Object::Object(Point position) {
 	this->position = position;
 }
 
+
 Point Object::getPosition() const {
 	return this->position;
 }

@@ -10,7 +10,7 @@ namespace navigate {
 	};
 	
 	const Point minBoundary = {3,3};
-	const Point maxBoundary = {10,10};
+	const Point maxBoundary = {9,9};
 }
 
 #endif
