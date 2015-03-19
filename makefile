@@ -2,23 +2,23 @@ FLG=-Wall
 INC=./include
 LIB=./libs
 BLD=./build
-SRC=./src
 BIN=./bin/midevil
 LOG=./log.txt
+DBG=./src/debug
+RLS=./src/release
 
 all:
-	g++ ./src/debug/*.cpp -c -I$(INC)
-	mv ./*.o $(BLD)
+	g++ ./src/debug/*.cpp -c -I./include
+	mv *.o ./build
 
-debug: SRC:=./src/debug
 debug:
-	g++ $(SRC)/*.cpp -I$(INC) -o $(BIN)
-	valgrind --tool=memcheck --leak-check=full -v $(BIN) -Wall
-
-release: SRC:=./src/release/midevil.cpp
+	g++ ./src/debug/*.cpp -I./include -L./libs -c ./build
+	cp ./src/debug/*.cpp ./src/release
+	mv ./*.o ./build
+	
 release: 
-	g++ $(SRC)/*.cpp -c -$(INC)
-	mv ./*.o $(BLD)
+	g++ ./src/release/*.cpp -I./include -L./libs -o ./bin/midevil
+	valgrind --tool=memcheck --leak-check=full -v ./bin/midevil -Wall
 
 clean:
 	find . -name '*.o' -delete

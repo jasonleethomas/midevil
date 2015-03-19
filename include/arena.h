@@ -1,16 +1,22 @@
 #ifndef ARENA_H
 #define ARENA_H
 
+#include <vector>
 #include <navigate.h>
 #include <object.h>
 #include <cell.h>
+#include <character.h>
+#include <obstacle.h>
 
 using navigate::Point;
 
 class Arena {
 private:	
 	Point dimensions;
-	Cell*** cells;
+	Cell*** arena;
+
+	std::vector<Character*> animateObjects;
+	std::vector<Obstacle*> inanimateObjects;
 
 	Arena();
 	Arena(Point);
@@ -26,7 +32,7 @@ public:
 	void destroy();
 	void settings();
 	void shuffle();
-	void toString();
+	string toString();
 };
 #endif
 

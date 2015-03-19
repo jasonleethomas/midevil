@@ -47,7 +47,7 @@ int main() {
 	while(activeObjects.size() > 10) {
 		shuffleArena(arena);
 		displayArena(arena, maxBoundary);
-		usleep(750);
+		sleep(1);
 	}
 
 	deleteArena(arena, maxBoundary);
