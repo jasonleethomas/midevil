@@ -68,8 +68,6 @@ void Arena::destroy() {
 		delete [] this->cells[x];
 	}
 	delete [] this->cells;
-
-	delete arena;
 }
 
 void Arena::shuffle() {

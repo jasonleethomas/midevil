@@ -29,27 +29,47 @@ Arena::Arena(Point dimensions) {
 	this->create();
 }
 
+Arena::~Arena() {
+	this->destroy();
+}
+
+Arena* Arena::getArena() {
+	if(arena = 0) 
+		arena = new Arena();
+
+	return arena;
+}
+
+Arena* Arena::getArena(Point dimensions) {
+	if(arena = 0)
+		arena = new Arena(dimensions);
+
+	return arena;
+}
+
 void Arena::create() {
-	this->arena = new Cell**[this->dimensions.x];
+	this->cells = new Cell**[this->dimensions.x];
 	for(uint8_t x = 0; x < this->dimensions.x; x++) {
-		this->arena[x] = new Cell*[this->dimensions.y];
+		this->cells[x] = new Cell*[this->dimensions.y];
 		for(uint8_t y = 0; y < this->dimensions.y; y++)
-			this->arena[x][y] = new Cell({x,y});
+			this->cells[x][y] = new Cell({x,y});
 	}	
 }
 
 void Arena::destroy() {
 	for(uint8_t x = 0; x < this->dimensions.x; x++) {
 		for(uint8_t y = 0; y < this->dimensions.y; y++) {
-			if(this->arena[x][y] != 0) {
-				if(this->arena[x][y]->getOccupant() != 0)
-					delete this->arena[x][y]->getOccupant();
-				delete this->arena[x][y];
+			if(this->cells[x][y] != 0) {
+				if(this->cells[x][y]->getOccupant() != 0)
+					delete this->cells[x][y]->getOccupant();
+				delete this->cells[x][y];
 			}
 		}
-		delete [] this->arena[x];
+		delete [] this->cells[x];
 	}
-	delete [] this->arena;
+	delete [] this->cells;
+
+	delete arena;
 }
 
 void Arena::shuffle() {
@@ -62,8 +82,8 @@ void Arena::shuffle() {
 		rand() % maxBoundary.y
 	};
 	
-	Cell* thisCell = this->arena[thisPoint.x][thisPoint.y];
-	Cell* thatCell = this->arena[thatPoint.x][thatPoint.y];
+	Cell* thisCell = this->cells[thisPoint.x][thisPoint.y];
+	Cell* thatCell = this->cells[thatPoint.x][thatPoint.y];
 
 	if(thatCell->isVacant()) {
 		thisCell->vacate();
@@ -71,7 +91,7 @@ void Arena::shuffle() {
 	}
 	else {
 		Object* thatObject = 
-			this->arena[thatPoint.x][thatPoint.y]->getOccupant();
+			this->cells[thatPoint.x][thatPoint.y]->getOccupant();
 
 		if(thatObject->movedBy(thisObject)) {
 			thisCell->vacate();
@@ -95,10 +115,10 @@ string Arena::toString() {
 	string str;
 	for(uint8_t x = 0; x < this->dimensions.x; x++) {
 		for(uint8_t y = 0; y < this->dimensions.y; y++) {
-			if(this->arena[x][y]->isVacant())
+			if(this->cells[x][y]->isVacant())
 				str += " ";
 			else
-				str += this->arena[x][y]->getOccupant()->toString();
+				str += this->cells[x][y]->getOccupant()->toString();
 		}
 		str += "\n";
 	}
