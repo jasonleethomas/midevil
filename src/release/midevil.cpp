@@ -44,10 +44,10 @@ int main() {
 	occupyArena(arena, maxBoundary);
 	displayArena(arena, maxBoundary);
 
-	while(activeObjects.size() > 10) {
+	while(activeObjects.size() > 1) {
 		shuffleArena(arena);
 		displayArena(arena, maxBoundary);
-		sleep(1);
+		usleep(500000);
 	}
 
 	deleteArena(arena, maxBoundary);
@@ -131,7 +131,7 @@ bool shuffleArena(Cell*** arena) {
 	}
 	
 	activeObjects.pop_back();	
-	activeObjects.insert(activeObjects.end(), thisObject);						
+	activeObjects.insert(activeObjects.begin(), thisObject);						
 }
 
 void deleteArena(Cell*** arena, Point maxBoundary) {	

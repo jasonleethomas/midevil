@@ -1,6 +1,6 @@
+#include <obstacle.h>
 #include <navigate.h>
 #include <object.h>
-#include <obstacle.h>
 
 Obstacle::Obstacle() : Object() {}
 

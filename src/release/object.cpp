@@ -1,6 +1,6 @@
-#include <string.h>
-#include <navigate.h>
 #include <object.h>
+#include <navigate.h>
+#include <string.h>
 
 using navigate::Point;
 using std::string;

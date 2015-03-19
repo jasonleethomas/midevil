@@ -1,12 +1,17 @@
 #ifndef WARRIOR_H
 #define WARRIOR_H
 
+#include <character.h>
+#include <navigate.h>
+#include <classify.h>
+#include <string>
+
 class Warrior : public Character {
 public:
 	Warrior();
-	Warrior(Point);
+	Warrior(navigate::Point, classify::Level);
 	
-	string toString();
+	std::string toString();
 };
 
 #endif

@@ -21,12 +21,15 @@ private:
 	Game(Game const& copy);
 	Game& operator=(Game const& copy);
 
+	static Game* game;
 public:
 	static Game* getGame();
 
 	bool begin();
 	bool end();
 	bool settings();
+
+	~Game();
 };
 
 #endif

@@ -6,4 +6,5 @@ namespace classify {
 	enum Type { Warrior, Wizard };
 }
 
+
 #endif

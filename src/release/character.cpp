@@ -1,9 +1,9 @@
+#include <character.h>
+#include <object.h>
 #include <stdint.h>
 #include <string.h>
 #include <navigate.h>
 #include <classify.h>
-#include <object.h>
-#include <character.h>
 
 using classify::Level;
 using classify::Type;

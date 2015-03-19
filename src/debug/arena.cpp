@@ -1,10 +1,3 @@
-#include <iostream>
-#include <vector>
-#include <algorithm>
-#include <stdlib.h>
-#include <time.h>
-#include <unistd.h>
-
 #include <arena.h>
 #include <cell.h>
 #include <object.h>
@@ -12,12 +5,20 @@
 #include <obstacle.h>
 #include <navigate.h>
 #include <classify.h>
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <stdlib.h>
+#include <time.h>
+#include <unistd.h>
 
 using std::vector;
 using classify::Level;
 using classify::Type;
 using navigate::Point;
 using navigate::maxBoundary;
+
+Arena* Arena::arena = 0;
 
 Arena::Arena() {
 	this->dimensions = maxBoundary;
@@ -116,7 +117,7 @@ string Arena::toString() {
 	for(uint8_t x = 0; x < this->dimensions.x; x++) {
 		for(uint8_t y = 0; y < this->dimensions.y; y++) {
 			if(this->cells[x][y]->isVacant())
-				str += " ";
+				str += "_";
 			else
 				str += this->cells[x][y]->getOccupant()->toString();
 		}

@@ -1,7 +1,7 @@
+#include <cell.h>
+#include <object.h>
 #include <stdint.h>
 #include <navigate.h>
-#include <object.h>
-#include <cell.h>
 
 using navigate::Point;
 

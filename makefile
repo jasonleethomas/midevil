@@ -12,8 +12,7 @@ all:
 	mv *.o ./build
 
 debug:
-	g++ ./src/debug/*.cpp -I./include -L./libs -c ./build
-	cp ./src/debug/*.cpp ./src/release
+	g++ ./src/debug/*.cpp -I./include -c ./build
 	mv ./*.o ./build
 	
 release: 

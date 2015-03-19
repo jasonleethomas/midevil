@@ -1,12 +1,9 @@
+#include <character.h>
+#include <object.h>
 #include <stdint.h>
 #include <string.h>
 #include <navigate.h>
-#include <classify.h>
-#include <object.h>
-#include <character.h>
 
-using classify::Level;
-using classify::Type;
 using navigate::Point;
 using std::string;
 
@@ -34,9 +31,18 @@ bool Character::reactTo(Object* object) {
 }
 
 void Character::moveTo(Point position) {
-	this->position = position;
+	this->setPosition(position);
 }
 
 string Character::toString() {
+	switch(this->level)	{
+	case Novice:
+		break;
+	case Grand:	
+		break;
+	case Master:
+		break;
+	}
+
 	return "C";
 }
