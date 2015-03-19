@@ -24,6 +24,7 @@ public:
 	Object(Point);
 
 	Point getPosition() const;
+	void setPosition(Point);
 	string getId() const;
 
 	virtual bool movedBy(Object*) = 0;

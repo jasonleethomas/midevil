@@ -7,8 +7,7 @@ using std::string;
 
 Object::Object() {
 	this->id = genId();
-	this->position.x = 0;
-	this->position.y = 0;
+	this->setPosition({0,0});
 }
 
 Object::Object(Point position) {
@@ -18,6 +17,10 @@ Object::Object(Point position) {
 
 Point Object::getPosition() const {
 	return this->position;
+}
+
+void Object::setPosition(Point position) {
+	this->position = position;
 }
 
 string Object::getId() const {

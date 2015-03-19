@@ -22,6 +22,7 @@ Cell::Cell(Point position, Object* object) {
 	this->vacancy = false;	
 	this->position = position;
 	this->occupant = object;
+	this->occupant->setPosition(this->position);
 }
 
 Cell::~Cell() {}
@@ -35,6 +36,7 @@ bool Cell::occupy(Object* object) {
 		return false;
 
 	this->occupant = object;
+	this->occupant->setPosition(this->position);
 	this->vacancy = false;
 
 	return true;
