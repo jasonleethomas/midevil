@@ -67,10 +67,10 @@ void occupyArena(Cell*** arena, Point maxBoundary) {
 			if(randSeed < 1) 
 				arena[x][y] = new Cell(thisPoint, new Obstacle(thisPoint));
 			else if(randSeed > 5) {
-				Level randLevel = (Level) (randSeed % 3);
+				Level randLevel = (Level) (rand() % 3);
 
 				Character* randCharacter;
-				Type randType = (Type) (randSeed % 2);
+				Type randType = (Type) (rand() % 2);
 
 				if(randType == classify::Warrior)
 					randCharacter = new Warrior(thisPoint, randLevel);
@@ -92,7 +92,7 @@ void displayArena(Cell*** arena, Point maxBoundary) {
 	for(uint8_t x = 0; x < maxBoundary.x; x++) {
 		for(uint8_t y = 0; y < maxBoundary.y; y++) {
 			if(arena[x][y]->isVacant())
-				std::cout << "__";
+				std::cout << "  ";
 			else
 				std::cout << arena[x][y]->getOccupant()->toString();
 		}

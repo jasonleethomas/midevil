@@ -27,6 +27,10 @@ Type Character::getType() {
 	return this->type;
 }
 
+int getRange() {
+	return this->range;
+}
+
 bool Character::movedBy(Object* object) {
 	Character* opponent = (Character*) object;
 	if(this->type != opponent->type) {

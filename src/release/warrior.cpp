@@ -13,7 +13,7 @@ Warrior::Warrior(Point position, Level level)
 string Warrior::toString() {
 	string str;
 
-	switch(this->getLevel()) {
+	switch(this->level) {
 	case classify::Grand:
 		str += "G"; break;
 	case classify::Master:

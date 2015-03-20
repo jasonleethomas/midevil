@@ -14,6 +14,9 @@ class Character : public Object {
 private:
 	static int count;
 	Type type;
+
+protected:
+	int range;
 	Level level;
 
 public:
@@ -22,6 +25,7 @@ public:
 
 	Level getLevel();
 	Type getType();
+	int getRange();
 
 	bool movedBy(Object*);
 	void moveTo(Point);
