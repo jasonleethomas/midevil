@@ -30,6 +30,7 @@ public:
 	virtual bool movedBy(Object*) = 0;
 	virtual bool reactTo(Object*) = 0;
 	virtual string toString() = 0;
+	virtual void getSettings();
 
 	virtual ~Object() {};
 };

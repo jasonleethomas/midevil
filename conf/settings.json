@@ -4,16 +4,18 @@
 	},
 
 	"object": {
-		"obstacle": {
-			"boulder": {
-				"count": 0
-			},
-
-			"portal": {
-				"count": 0
-			}
-		}	
+		
 	},
+
+	"obstacle": {
+		"boulder": {
+			"count": 0
+		},
+
+		"portal": {
+			"count": 0
+			}
+	},	
 
 	"player": {
 		"first": {
@@ -26,7 +28,10 @@
 			"hp": 100
 		},
 
-		"computer": {}
+		"computer": {
+			"team": "warrior",
+			"hp": 100
+		}
 	},
 
 	"arena": {
@@ -36,8 +41,7 @@
 		}
 	},
 
-	"cell": 
-	{
+	"cell": {
 		"dimensions": {
 			"xdim": 1,
 			"ydim": 1
@@ -57,8 +61,8 @@
 		"warrior": {
 			"grand": {
 				"attributes": {
-					"range": 2,
-					"speed": 3
+					"range": 3,
+					"speed": 5
 				},
 
 				"count": 0
@@ -67,25 +71,16 @@
 			"master": {
 				"attributes": {
 					"range": 2,
+					"speed": 3
+				},
+
+				"count": 0
+			},
+
+			"novice": {
+				"attributes": {
+					"range": 1,
 					"speed": 2
-				},
-
-				"count": 0
-			},
-
-			"light": {
-				"attributes": {
-					"range": 1,
-					"speed": 1
-				},
-
-				"count": 0
-			},
-
-			"dark": {
-				"attributes": {
-					"range": 1,
-					"speed": 1
 				},
 
 				"count": 0
@@ -96,38 +91,29 @@
 			"grand": {
 				"attributes": {
 					"range": 5,
-					"speed": 5
-				},
-
-				"count": 0
-			},
-
-			"dark": {
-				"attributes": {
-					"range": 3,
 					"speed": 3
 				},
 
 				"count": 0
 			},
 
-			"light": {
+			"master": {
 				"attributes": {
-					"range": 1,
+					"range": 3,
 					"speed": 2
 				},
 
 				"count": 0
 			},
 
-			"dark": {
+			"novice": {
 				"attributes": {
 					"range": 2,
 					"speed": 1
 				},
 
 				"count": 0
-			}
+			},
 		}			
 	}
 }

@@ -10,13 +10,12 @@ using classify::Type;
 using navigate::Point;
 using std::string;
 
-Character::Character() : Object() {}
-
 Character::Character(Point position, Type type, Level level) 
 	: Object(position) {
 
 	this->type = type;
-	this->level = level;			
+	this->level = level;
+	this->xp = 0;			
 }
 
 Level Character::getLevel() {
@@ -27,8 +26,16 @@ Type Character::getType() {
 	return this->type;
 }
 
-int getRange() {
+int Character::getRange() {
 	return this->range;
+}
+
+int Character::getSpeed() {
+	return this->speed;
+}
+
+void Character::levelUp() {
+	
 }
 
 bool Character::movedBy(Object* object) {

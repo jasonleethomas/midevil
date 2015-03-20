@@ -13,19 +13,24 @@ using navigate::Point;
 class Character : public Object {
 private:
 	static int count;
+
 	Type type;
+	int range;
+	int speed;
 
 protected:
-	int range;
+	int xp;
 	Level level;
 
 public:
-	Character();
 	Character(Point, Type, Level);
 
 	Level getLevel();
 	Type getType();
 	int getRange();
+	int getSpeed();
+	
+	void levelUp();
 
 	bool movedBy(Object*);
 	void moveTo(Point);
