@@ -17,5 +17,5 @@ bool Obstacle::reactTo(Object* object) {
 }
 
 string Obstacle::toString() {
-	return "X";
+	return "XX";
 }

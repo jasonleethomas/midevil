@@ -19,11 +19,11 @@ Character::Character(Point position, Type type, Level level)
 	this->level = level;			
 }
 
-Level Character::getLevel() {
+Level getLevel() {
 	return this->level;
 }
 
-Type Character::getType() {
+Type getType() {
 	return this->type;
 }
 

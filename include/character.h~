@@ -22,7 +22,6 @@ public:
 
 	Level getLevel();
 	Type getType();
-
 	bool movedBy(Object*);
 	void moveTo(Point);
 

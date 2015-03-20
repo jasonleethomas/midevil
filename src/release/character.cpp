@@ -1,9 +1,9 @@
 #include <character.h>
 #include <object.h>
 #include <stdint.h>
-#include <string.h>
-#include <navigate.h>
 #include <classify.h>
+#include <navigate.h>
+#include <string>
 
 using classify::Level;
 using classify::Type;
@@ -17,6 +17,14 @@ Character::Character(Point position, Type type, Level level)
 
 	this->type = type;
 	this->level = level;			
+}
+
+Level Character::getLevel() {
+	return this->level;
+}
+
+Type Character::getType() {
+	return this->type;
 }
 
 bool Character::movedBy(Object* object) {
@@ -34,7 +42,7 @@ bool Character::reactTo(Object* object) {
 }
 
 void Character::moveTo(Point position) {
-	this->position = position;
+	this->setPosition(position);
 }
 
 string Character::toString() {

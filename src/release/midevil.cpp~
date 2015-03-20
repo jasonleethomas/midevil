@@ -94,7 +94,7 @@ void displayArena(Cell*** arena, Point maxBoundary) {
 			if(arena[x][y]->isVacant())
 				std::cout << "__";
 			else
-				std::cout << arena[x][y]->getOccupant()->toString();
+				std::cout << arena[x][y]->getOccupant()->toString() << " ";
 		}
 		std::cout << std::endl;
 	}

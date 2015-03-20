@@ -1,16 +1,16 @@
-#include <wizard.h>
+#include <warrior.h>
 #include <classify.h>
 #include <string>
 
 using std::string;
 
-Wizard::Wizard() : Character({0,0}, classify::Wizard,
+Warrior::Warrior() : Character({0,0}, classify::Warrior,
 	classify::Novice) {}
 
-Wizard::Wizard(Point position, Level level) 
-	: Character(position, classify::Wizard, level) {}
+Warrior::Warrior(Point position, Level level) 
+	: Character(position, classify::Warrior, level) {}
 
-string Wizard::toString() {
+string Warrior::toString() {
 	string str;
 
 	switch(this->getLevel()) {
@@ -24,7 +24,7 @@ string Wizard::toString() {
 		str += "N"; break;
 	}
 
-	str += "Z";
+	str += "R";
 
 	return str;
 }

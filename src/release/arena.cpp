@@ -13,8 +13,6 @@
 #include <unistd.h>
 
 using std::vector;
-using classify::Level;
-using classify::Type;
 using navigate::Point;
 using navigate::maxBoundary;
 

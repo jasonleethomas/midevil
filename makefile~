@@ -20,7 +20,7 @@ release:
 	valgrind --tool=memcheck --leak-check=full -v ./bin/midevil -Wall
 
 update:
-	cp ./src/debug/*.cpp ./src/release
+	mv ./src/debug/*.cpp ./src/release
 
 clean:
 	find . -name '*.o' -delete
