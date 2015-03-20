@@ -13,7 +13,7 @@ Wizard::Wizard(Point position, Level level)
 string Wizard::toString() {
 	string str;
 
-	switch(this->getLevel()) {
+	switch(this->level) {
 	case classify::Grand:
 		str += "G"; break;
 	case classify::Master:
