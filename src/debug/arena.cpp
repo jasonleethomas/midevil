@@ -5,6 +5,7 @@
 #include <obstacle.h>
 #include <navigate.h>
 #include <classify.h>
+#include <settings.h>
 #include <iostream>
 #include <vector>
 #include <algorithm>
@@ -14,29 +15,61 @@
 
 using std::vector;
 using navigate::Point;
-using navigate::maxBoundary;
 
 Arena* Arena::arena = 0;
 
-Arena::Arena() {
-	this->dimensions = maxBoundary;
-	this->create();
-}
-
 Arena::Arena(Point dimensions) {
-	this->dimensions = dimensions;
-	this->create();
+	using navigate::minBoundary;
+	using navigate::maxBoundary;
+
+	if(dimensions.x < minBoundary.x)
+		this->dimensions.x = minBoundary.x;
+	else
+		this->dimensions.x = dimensions.x;
+
+	if(dimensions.y < minBoundary.y)
+		this->dimensions.y = minBoundary.y;
+	else
+		this->dimensions.y = dimensions.y;
+
+	if(dimensions.x > maxBoundary.x)
+		this->dimensions.x = maxBoundary.x;
+	else
+		this->dimensions.x = dimensions.x;
+
+	if(dimensions.y > maxBoundary.y)
+		this->dimensions.y = minBoundary.y;
+	else
+		this->dimensions.y = dimensions.y;
+
+	this->cells = new Cell**[this->dimensions.x];
+	for(uint8_t x = 0; x < this->dimensions.x; x++) {
+		this->cells[x] = new Cell*[this->dimensions.y];
+		for(uint8_t y = 0; y < this->dimensions.y; y++) {
+			Point thisPoint;	 
+			thisPoint.x = x;
+			thisPoint.y = y;
+			this->cells[x][y] = new Cell(thisPoint);
+		}
+	}	
 }
 
 Arena::~Arena() {
-	this->destroy();
-}
+	for(uint8_t x = 0; x < this->dimensions.x; x++) {
+		for(uint8_t y = 0; y < this->dimensions.y; y++) {
+			if(this->cells[x][y] != 0) {
+				if(this->cells[x][y]->getOccupant() != 0)
+					delete this->cells[x][y]->getOccupant();
+				delete this->cells[x][y];
+			}
+		}
 
-Arena* Arena::getArena() {
-	if(arena = 0) 
-		arena = new Arena();
+		delete [] this->cells[x];
+	}
 
-	return arena;
+	delete [] this->cells;
+
+	delete arena;
 }
 
 Arena* Arena::getArena(Point dimensions) {
@@ -46,69 +79,50 @@ Arena* Arena::getArena(Point dimensions) {
 	return arena;
 }
 
-void Arena::create() {
-	this->cells = new Cell**[this->dimensions.x];
-	for(uint8_t x = 0; x < this->dimensions.x; x++) {
-		this->cells[x] = new Cell*[this->dimensions.y];
-		for(uint8_t y = 0; y < this->dimensions.y; y++)
-			this->cells[x][y] = new Cell({x,y});
-	}	
-}
+void Arena::shuffle() {
+	Character* thisCharacter = this->animateObjects.back();
 
-void Arena::destroy() {
-	for(uint8_t x = 0; x < this->dimensions.x; x++) {
-		for(uint8_t y = 0; y < this->dimensions.y; y++) {
-			if(this->cells[x][y] != 0) {
-				if(this->cells[x][y]->getOccupant() != 0)
-					delete this->cells[x][y]->getOccupant();
-				delete this->cells[x][y];
+	for(int moves = 0; moves < thisCharacter->getSpeed(); moves++) {
+		Point thatPoint = {
+			rand() % thisCharacter->getRange(),
+			rand() % thisCharacter->getRange()
+		};
+	
+		Cell* thatCell = this->cells[thatPoint.x][thatPoint.y];
+
+		if(thatCell->isVacant())
+			thatCell->occupy(thisCharacter);
+		else {
+			Object* thatObject = thatCell->getOccupant();
+
+			if(thatObject->fights()) {
+				Character* thatCharacter = (Character*) thatObject;
+
+				thisCharacter->attack(thatCharacter);
+				if(thatCharacter->isDead()) {
+					thatCell->vacate();
+					thatCell->occupy(thisCharacter);
+				
+					vector<Character*>::iterator inactiveObject;
+					inactiveObject = std::find(this->animateObjects.begin(), 
+						this->animateObjects.end(), thatCharacter);
+			
+					this->animateObjects.erase(inactiveObject);
+					delete thatCharacter;
+				}
 			}
 		}
-		delete [] this->cells[x];
-	}
-	delete [] this->cells;
-
-	delete arena;
+	
+		this->animateObjects.pop_back();	
+		this->animateObjects.insert(this->animateObjects.end(),
+			thisCharacter);
+	}						
 }
 
-void Arena::shuffle() {
-	using std::find;
-
-	Character* thisObject = this->animateObjects.back();
-	Point thisPoint = thisObject->getPosition();
-	Point thatPoint = {
-		rand() % maxBoundary.x,
-		rand() % maxBoundary.y
-	};
+void Arena::occupy() {
 	
-	Cell* thisCell = this->cells[thisPoint.x][thisPoint.y];
-	Cell* thatCell = this->cells[thatPoint.x][thatPoint.y];
-
-	if(thatCell->isVacant()) {
-		thisCell->vacate();
-		thatCell->occupy(thisObject);
-	}
-	else {
-		Object* thatObject = 
-			this->cells[thatPoint.x][thatPoint.y]->getOccupant();
-
-		if(thatObject->movedBy(thisObject)) {
-			thisCell->vacate();
-			thatCell->occupy(thisObject);
-			
-			vector<Character*>::iterator inactiveObject;
-			inactiveObject = find(this->animateObjects.begin(), 
-				this->animateObjects.end(), thatObject);
-			
-			this->animateObjects.erase(inactiveObject);
-			delete thatObject;
-		}
-	}
-	
-	this->animateObjects.pop_back();	
-	this->animateObjects.insert(this->animateObjects.end(),
-		thisObject);						
 }
+
 
 string Arena::toString() {
 	string str;

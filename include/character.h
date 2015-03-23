@@ -8,37 +8,42 @@
 
 using classify::Level;
 using classify::Type;
-using navigate::Point;
 
 class Character : public Object {
 private:
 	static int count;
-
+	int xp;
+	Level level;
 	Type type;
+			
+	bool dead;
+
+	int health;
+	int damage;
 	int range;
 	int speed;
 
-protected:
-	int xp;
-	Level level;
+	int cost;
 
 public:
-	Character(Point, Type, Level);
+	Character(Level, Type);
 
-	Level getLevel();
-	Type getType();
-	int getRange();
-	int getSpeed();
+	Level getLevel() const;
+	Type getType() const;
+
+	bool isDead() const;
+ 
+	int getHealth() const;
+	int getDamage() const;
+	int getRange() const;
+	int getSpeed() const;
 	
-	void levelUp();
+	bool fights();
+	bool attack(Character*);	
+	void defend(Character*);
 
-	bool movedBy(Object*);
-	void moveTo(Point);
-
-	virtual bool reactTo(Object*);
-	virtual string toString();
-
-	virtual ~Character() {}
+	virtual bool reactTo(const Object*) = 0;
+	virtual string toString() = 0;
 };
 
 #endif

@@ -3,59 +3,72 @@
 #include <stdint.h>
 #include <classify.h>
 #include <navigate.h>
+#include <settings.h>
 #include <string>
 
+using namespace characterSettings;
 using classify::Level;
 using classify::Type;
-using navigate::Point;
 using std::string;
 
-Character::Character(Point position, Type type, Level level) 
-	: Object(position) {
+int Character::count = 0;
 
-	this->type = type;
+Character::Character(Level level, Type type) : Object() {	
+	count++;
 	this->level = level;
+	this->type = type;
 	this->xp = 0;			
+
+	this->dead = false;
+
+	this->health = getCharacterHealth(this->level, this->type);
+	this->damage = getCharacterDamage(this->level, this->type);
+	this->range = getCharacterRange(this->level, this->type);
+	this->speed = getCharacterSpeed(this->level, this->type);
+
+	this->cost = getCharacterCost(this->level, this->type);
 }
 
-Level Character::getLevel() {
+Level Character::getLevel() const {
 	return this->level;
 }
 
-Type Character::getType() {
+Type Character::getType() const {
 	return this->type;
 }
 
-int Character::getRange() {
+bool Character::isDead() const {
+	return this->dead;
+}
+
+int Character::getHealth() const {
+	return this->health;
+}
+
+int Character::getDamage() const {
+	return this->damage;
+}
+
+int Character::getRange() const {
 	return this->range;
 }
 
-int Character::getSpeed() {
+int Character::getSpeed() const {
 	return this->speed;
 }
 
-void Character::levelUp() {
-	
-}
-
-bool Character::movedBy(Object* object) {
-	Character* opponent = (Character*) object;
-	if(this->type != opponent->type) {
-		if(this->level <= opponent->level) 
-			return true;
-	}
-
-	return false;
-}
-
-bool Character::reactTo(Object* object) {
+bool Character::fights() {
 	return true;
 }
 
-void Character::moveTo(Point position) {
-	this->setPosition(position);
+bool Character::attack(Character* opponent) {
+	opponent->defend(this);
+	if(!opponent->isDead())
+		this->xp += 1;
 }
 
-string Character::toString() {
-	return "C";
+void Character::defend(Character* opponent) {
+	this->health -= opponent->getDamage();
+	if(this->health <= 0)
+		this->dead = true;
 }

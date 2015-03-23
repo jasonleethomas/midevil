@@ -18,7 +18,6 @@ private:
 	std::vector<Character*> animateObjects;
 	std::vector<Obstacle*> inanimateObjects;
 
-	Arena();
 	Arena(Point);
 
 	Arena(const Arena& copy);
@@ -27,17 +26,17 @@ private:
 	static Arena* arena;
 
 public:
-	static Arena* getArena();
 	static Arena* getArena(Point);
 
-	void create();
-	void destroy();
 	void settings();
 	void shuffle();
+	void occupy();
+
 	string toString();
 
 	~Arena();
 };
+
 #endif
 
 

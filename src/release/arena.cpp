@@ -14,48 +14,46 @@
 
 using std::vector;
 using navigate::Point;
-using navigate::maxBoundary;
 
 Arena* Arena::arena = 0;
 
-Arena::Arena() {
-	this->dimensions = maxBoundary;
-	this->create();
-}
-
 Arena::Arena(Point dimensions) {
-	this->dimensions = dimensions;
-	this->create();
-}
+	using navigate::minBoundary;
+	using navigate::maxBoundary;
 
-Arena::~Arena() {
-	this->destroy();
-}
+	if(dimensions.x < minBoundary.x)
+		this->dimensions.x = minBoundary.x;
+	else
+		this->dimensions.x = dimensions.x;
 
-Arena* Arena::getArena() {
-	if(arena = 0) 
-		arena = new Arena();
+	if(dimensions.y < minBoundary.y)
+		this->dimensions.y = minBoundary.y;
+	else
+		this->dimensions.y = dimensions.y;
 
-	return arena;
-}
+	if(dimensions.x > maxBoundary.x)
+		this->dimensions.x = maxBoundary.x;
+	else
+		this->dimensions.x = dimensions.x;
 
-Arena* Arena::getArena(Point dimensions) {
-	if(arena = 0)
-		arena = new Arena(dimensions);
+	if(dimensions.y > maxBoundary.y)
+		this->dimensions.y = minBoundary.y;
+	else
+		this->dimensions.y = dimensions.y;
 
-	return arena;
-}
-
-void Arena::create() {
 	this->cells = new Cell**[this->dimensions.x];
 	for(uint8_t x = 0; x < this->dimensions.x; x++) {
 		this->cells[x] = new Cell*[this->dimensions.y];
-		for(uint8_t y = 0; y < this->dimensions.y; y++)
-			this->cells[x][y] = new Cell({x,y});
+		for(uint8_t y = 0; y < this->dimensions.y; y++) {
+			Point thisPoint;	 
+			thisPoint.x = x;
+			thisPoint.y = y;
+			this->cells[x][y] = new Cell(thisPoint);
+		}
 	}	
 }
 
-void Arena::destroy() {
+Arena::~Arena() {
 	for(uint8_t x = 0; x < this->dimensions.x; x++) {
 		for(uint8_t y = 0; y < this->dimensions.y; y++) {
 			if(this->cells[x][y] != 0) {
@@ -71,43 +69,51 @@ void Arena::destroy() {
 	delete arena;
 }
 
+Arena* Arena::getArena(Point dimensions) {
+	if(arena = 0)
+		arena = new Arena(dimensions);
+
+	return arena;
+}
+
 void Arena::shuffle() {
-	using std::find;
+	Character* thisCharacter = this->animateObjects.back();
 
-	Character* thisObject = this->animateObjects.back();
-	Point thisPoint = thisObject->getPosition();
-	Point thatPoint = {
-		rand() % maxBoundary.x,
-		rand() % maxBoundary.y
-	};
+	for(int moves = 0; moves < thisCharacter->getSpeed(); moves++) {
+		Point thatPoint = {
+			rand() % thisCharacter->getRange(),
+			rand() % thisCharacter->getRange()
+		};
 	
-	Cell* thisCell = this->cells[thisPoint.x][thisPoint.y];
-	Cell* thatCell = this->cells[thatPoint.x][thatPoint.y];
+		Cell* thatCell = this->cells[thatPoint.x][thatPoint.y];
 
-	if(thatCell->isVacant()) {
-		thisCell->vacate();
-		thatCell->occupy(thisObject);
-	}
-	else {
-		Object* thatObject = 
-			this->cells[thatPoint.x][thatPoint.y]->getOccupant();
+		if(thatCell->isVacant())
+			thatCell->occupy(thisCharacter);
+		else {
+			Object* thatObject = thatCell->getOccupant();
 
-		if(thatObject->movedBy(thisObject)) {
-			thisCell->vacate();
-			thatCell->occupy(thisObject);
+			if(thatObject->fights()) {
+				Character* thatCharacter = (Character*) thatObject;
+
+				thisCharacter->attack(thatCharacter);
+				if(thatCharacter->isDead()) {
+					thatCell->vacate();
+					thatCell->occupy(thisCharacter);
+				
+					vector<Character*>::iterator inactiveObject;
+					inactiveObject = std::find(this->animateObjects.begin(), 
+						this->animateObjects.end(), thatCharacter);
 			
-			vector<Character*>::iterator inactiveObject;
-			inactiveObject = find(this->animateObjects.begin(), 
-				this->animateObjects.end(), thatObject);
-			
-			this->animateObjects.erase(inactiveObject);
-			delete thatObject;
+					this->animateObjects.erase(inactiveObject);
+					delete thatCharacter;
+				}
+			}
 		}
-	}
 	
-	this->animateObjects.pop_back();	
-	this->animateObjects.insert(this->animateObjects.end(),
-		thisObject);						
+		this->animateObjects.pop_back();	
+		this->animateObjects.insert(this->animateObjects.end(),
+			thisCharacter);
+	}						
 }
 
 string Arena::toString() {

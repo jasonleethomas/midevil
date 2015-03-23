@@ -2,25 +2,13 @@
 #include <navigate.h>
 #include <string.h>
 
-using navigate::Point;
 using std::string;
+
+int Object::count = 0;
 
 Object::Object() {
 	this->id = genId();
-	this->setPosition({0,0});
-}
-
-Object::Object(Point position) {
-	this->id = genId();
-	this->position = position;
-}
-
-Point Object::getPosition() const {
-	return this->position;
-}
-
-void Object::setPosition(Point position) {
-	this->position = position;
+	count++;
 }
 
 string Object::getId() const {

@@ -7,13 +7,13 @@
 
 #include <navigate.h>
 #include <classify.h>
+#include <arena.h>
+#include <cell.h>
 #include <object.h>
 #include <character.h>
 #include <wizard.h>
 #include <warrior.h>
 #include <obstacle.h>
-#include <cell.h>
-#include <game.h>
 
 using std::vector;
 using classify::Level;
@@ -21,41 +21,21 @@ using classify::Type;
 using navigate::Point;
 using navigate::maxBoundary;
 
-namespace occupants {
-	vector<Point> activePoints;
-	vector<Character*> activeObjects;
-	vector<Character*> inactiveObjects;
-}
-
 namespace error {
 	bool flag = false;
 	string message;
 }
 
-void displayArena(Cell***, Point);
-void deleteArena(Cell***, Point);
 void occupyArena(Cell***, Point);
-bool shuffleArena(Cell***);
 
 int main() {
-	using occupants::activeObjects;
-	srand(time(NULL));
 
-	Cell*** arena	= new Cell**[maxBoundary.x];
-
-	occupyArena(arena, maxBoundary);
-	displayArena(arena, maxBoundary);
-
-	while(activeObjects.size() > 1) {
-		shuffleArena(arena);
-		displayArena(arena, maxBoundary);
-		usleep(500000);
-	}
-
-	deleteArena(arena, maxBoundary);
-
+	Arena* arena = Arena::getArena(maxBoundary);
 	return 0;
 }
+
+
+/*
 
 void occupyArena(Cell*** arena, Point maxBoundary) {	
 	for(uint8_t x = 0; x < maxBoundary.x; x++) {
@@ -87,72 +67,4 @@ void occupyArena(Cell*** arena, Point maxBoundary) {
 	}	
 }
 
-void displayArena(Cell*** arena, Point maxBoundary) {
-	using occupants::activeObjects;
-	for(uint8_t x = 0; x < maxBoundary.x; x++) {
-		for(uint8_t y = 0; y < maxBoundary.y; y++) {
-			if(arena[x][y]->isVacant())
-				std::cout << "  ";
-			else
-				std::cout << arena[x][y]->getOccupant()->toString();
-		}
-		std::cout << std::endl;
-	}
-	std::cout << "Active objects :" << activeObjects.size() << std::endl;
-	std::cout << std::endl;
-}
-
-bool shuffleArena(Cell*** arena) {
-	using std::find;
-	using occupants::activeObjects;
-	using occupants::inactiveObjects;
-
-	Character* thisObject = activeObjects.back();
-	Point thisPoint = thisObject->getPosition();
-	Point thatPoint = {
-		rand() % maxBoundary.x,
-		rand() % maxBoundary.y
-	};
-	
-	Cell* thisCell = arena[thisPoint.x][thisPoint.y];
-	Cell* thatCell = arena[thatPoint.x][thatPoint.y];
-
-	if(thatCell->isVacant()) {
-		thisCell->vacate();
-		thatCell->occupy(thisObject);
-	}
-	else {
-		Object* thatObject = 
-			arena[thatPoint.x][thatPoint.y]->getOccupant();
-
-		if(thatObject->movedBy(thisObject)) {
-			thisCell->vacate();
-			thatCell->occupy(thisObject);
-			
-			vector<Character*>::iterator inactiveObject;
-			inactiveObject = find(activeObjects.begin(), 
-				activeObjects.end(), (Character*)thatObject);
-			
-			activeObjects.erase(inactiveObject);
-			delete thatObject;
-		}
-	}
-	
-	activeObjects.pop_back();	
-	activeObjects.insert(activeObjects.begin(), thisObject);						
-}
-
-void deleteArena(Cell*** arena, Point maxBoundary) {	
-	using occupants::inactiveObjects;
-	for(uint8_t x = 0; x < maxBoundary.x; x++) {
-		for(uint8_t y = 0; y < maxBoundary.y; y++) {
-			if(arena[x][y] != 0) {
-				if(arena[x][y]->getOccupant() != 0)
-					delete arena[x][y]->getOccupant();
-				delete arena[x][y];
-			}
-		}
-		delete [] arena[x];
-	}
-	delete [] arena;
-}
+*/
