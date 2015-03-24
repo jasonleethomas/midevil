@@ -23,17 +23,17 @@ DarkWarrior::DarkWarrior(Point position)
 	: Warrior(position, classify::Dark) {}
 
 string GrandWarrior::toString() {
-	return " Rg ";
+	return " RG ";
 }
 
 string MasterWarrior::toString() {
-	return " Rm ";
+	return " RM ";
 }
 
 string LightWarrior::toString() {
-	return " Rl ";
+	return " RL ";
 }
 
 string DarkWarrior::toString() {
-	return " Rd ";
+	return " RD ";
 }

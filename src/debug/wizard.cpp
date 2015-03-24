@@ -24,17 +24,17 @@ DarkWizard::DarkWizard(Point position)
 	: Wizard(position, classify::Dark) {}
 
 string GrandWizard::toString() {
-	return " Zg ";
+	return " ZG ";
 }
 
 string MasterWizard::toString() {
-	return " Zm ";
+	return " ZM ";
 }
 
 string LightWizard::toString() {
-	return " Zl ";
+	return " ZL ";
 }
 
 string DarkWizard::toString() {
-	return " Zd ";
+	return " ZD ";
 }

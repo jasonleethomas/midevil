@@ -41,6 +41,11 @@ public:
 	~Arena();
 };
 
+namespace Teams {
+	std::vector<Character*> wizards;
+	std::vector<Character*> warriors;
+}
+
 #endif
 
 

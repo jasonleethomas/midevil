@@ -9,5 +9,5 @@ bool Obstacle::fights() {
 }
 
 string Obstacle::toString() {
-	return " xx ";
+	return " XX ";
 }
