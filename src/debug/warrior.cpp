@@ -3,31 +3,37 @@
 #include <string>
 
 using std::string;
+using navigate::Point;
 using classify::Type;
 using classify::Level;
 
-Warrior::Warrior(Level level) : Character(level, classify::Warrior) {}
+Warrior::Warrior(Point position, Level level) 
+	: Character(position, level, classify::Warrior) {}
 
-GrandWarrior::GrandWarrior() : Warrior(classify::Grand) {}
+GrandWarrior::GrandWarrior(Point position) 
+	: Warrior(position, classify::Grand) {}
 
-MasterWarrior::MasterWarrior() : Warrior(classify::Master) {}
+MasterWarrior::MasterWarrior(Point position) 
+	: Warrior(position, classify::Master) {}
 
-LightWarrior::LightWarrior() : Warrior(classify::Light) {}
+LightWarrior::LightWarrior(Point position) 
+	: Warrior(position, classify::Light) {}
 
-DarkWarrior::DarkWarrior() : Warrior(classify::Dark) {}
+DarkWarrior::DarkWarrior(Point position) 
+	: Warrior(position, classify::Dark) {}
 
 string GrandWarrior::toString() {
-	return "Rg";
+	return " Rg ";
 }
 
 string MasterWarrior::toString() {
-	return "Rm";
+	return " Rm ";
 }
 
 string LightWarrior::toString() {
-	return "Rl";
+	return " Rl ";
 }
 
 string DarkWarrior::toString() {
-	return "Rd";
+	return " Rd ";
 }

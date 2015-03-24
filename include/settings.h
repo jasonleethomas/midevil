@@ -13,7 +13,7 @@
 
 class Settings {
 private:	
-	static Settings* handle;
+	static Settings handle;
 	static const char* filename;
 
 	Json::Value settings;
@@ -25,14 +25,15 @@ private:
 	Settings(const Settings& copy);
 	Settings operator=(const Settings& copy);	
 
-	Json::Value getSettings(std::string) const;
+	Json::Value getSettings() const;
 
 public:		
 	static Settings* getHandle();
 	
 	static Json::Value getGameSettings();
 	static Json::Value getArenaSettings(Point);
-	static Json::Value getCharacterSettings(classify::Level, classify::Type);
+	static Json::Value getCharacterSettings(classify::Level,
+	 classify::Type);
 
 	bool updateSettings();
 

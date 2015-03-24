@@ -2,12 +2,12 @@
 #include <navigate.h>
 #include <object.h>
 
-Obstacle::Obstacle() : Object() {}
+Obstacle::Obstacle(navigate::Point position) : Object(position) {}
 
 bool Obstacle::fights() {
 	return false;
 }
 
 string Obstacle::toString() {
-	return "XX";
+	return " xx ";
 }

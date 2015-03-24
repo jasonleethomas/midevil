@@ -7,13 +7,15 @@
 #include <string>
 
 using namespace characterSettings;
+using navigate::Point;
 using classify::Level;
 using classify::Type;
 using std::string;
 
 int Character::count = 0;
 
-Character::Character(Level level, Type type) : Object() {	
+Character::Character(Point position, Level level, Type type) 
+	: Object(position) {	
 	count++;
 	this->level = level;
 	this->type = type;

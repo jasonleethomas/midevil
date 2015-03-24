@@ -12,13 +12,16 @@ private:
 	static int count;
 	string id;
 	string genId();
+	navigate::Point position;
 	
 public:
 	static int getCount();
 
-	Object();
+	Object(navigate::Point position);
 	string getId() const;
-
+	navigate::Point getPosition() const;
+	void setPosition(navigate::Point);
+	
 	virtual bool fights() = 0;
 	virtual string toString() = 0;
 

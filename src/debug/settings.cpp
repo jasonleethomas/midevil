@@ -12,34 +12,28 @@
 #include <character.h>
 
 const char* Settings::filename = "./conf/settings.json";
-Settings* Settings::handle = 0;
+
+Settings Settings::handle;
 
 Settings::Settings() {
 	this->in.open(filename);
-	if(this->in.is_open()) 
-		this->in >> this->settings;
-
+	this->in >> this->settings;
 	this->in.close();
 }
 
 Settings* Settings::getHandle() {
-	if(handle == 0)
-		handle = new Settings();
-
-	return handle;
+	return &handle;
 }
 
-Json::Value Settings::getSettings(std::string thisclass) const {
-	return this->settings[thisclass];
+Settings::~Settings() {}
+
+Json::Value Settings::getSettings() const {
+	return this->settings;
 }
 
-Json::Value Settings::getGameSettings() {
+Json::Value Settings::getGameSettings() {}
 
-}
-
-Json::Value Settings::getArenaSettings(Point dimensions) {
-
-}
+Json::Value Settings::getArenaSettings(Point dimensions) {}
 
 Json::Value Settings::getCharacterSettings(classify::Level level, 
 	classify::Type type) {
@@ -71,10 +65,10 @@ Json::Value Settings::getCharacterSettings(classify::Level level,
 		break;
 	}			
 	
-	Settings* settings = getHandle();
-	Json::Value characterSettings 
-		= settings->getSettings("character");	
-
+	Settings* handle = getHandle();
+	Json::Value settings = handle->getSettings();	
+	Json::Value characterSettings = settings["character"];
+	
 	return characterSettings[typeString][levelString];
 }
 

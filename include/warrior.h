@@ -3,16 +3,17 @@
 
 #include <character.h>
 #include <classify.h>
+#include <navigate.h>
 #include <string>
 
 class Warrior : public Character {
 public:
-	Warrior(classify::Level);
+	Warrior(navigate::Point, classify::Level);
 };
 
 class GrandWarrior : public Warrior {
 public:
-	GrandWarrior();
+	GrandWarrior(navigate::Point);
 
 	std::string toString();
 };
@@ -20,7 +21,7 @@ public:
 class MasterWarrior : public Warrior {
 public:
 
-	MasterWarrior();
+	MasterWarrior(navigate::Point);
 
 	std::string toString();
 };
@@ -28,7 +29,7 @@ public:
 class LightWarrior : public Warrior {
 public:
 
-	LightWarrior();
+	LightWarrior(navigate::Point);
 
 	std::string toString();
 };
@@ -36,7 +37,7 @@ public:
 
 class DarkWarrior : public Warrior {
 public:
-	DarkWarrior();
+	DarkWarrior(navigate::Point);
 
 	std::string toString();
 };

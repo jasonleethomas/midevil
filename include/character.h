@@ -6,6 +6,7 @@
 #include <classify.h>
 #include <object.h>
 
+using navigate::Point;
 using classify::Level;
 using classify::Type;
 
@@ -26,23 +27,23 @@ private:
 	int cost;
 
 public:
-	Character(Level, Type);
+	Character(Point, Level, Type);
 
 	Level getLevel() const;
 	Type getType() const;
 
-	bool isDead() const;
+	virtual bool isDead() const;
  
-	int getHealth() const;
-	int getDamage() const;
-	int getRange() const;
-	int getSpeed() const;
+	virtual int getHealth() const;
+	virtual int getDamage() const;
+	virtual int getRange() const;
+	virtual int getSpeed() const;
 	
-	bool fights();
-	bool attack(Character*);	
-	void defend(Character*);
+	virtual bool fights();
+	virtual bool attack(Character*);	
+	virtual void defend(Character*);
 
-	virtual bool reactTo(const Object*) = 0;
+//	virtual bool reactTo(const Object*) = 0;
 	virtual string toString() = 0;
 };
 

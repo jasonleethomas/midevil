@@ -7,7 +7,7 @@
 
 class Obstacle : public Object {
 public:
-	Obstacle();
+	Obstacle(navigate::Point);
 
 	bool fights();
 	std::string toString();

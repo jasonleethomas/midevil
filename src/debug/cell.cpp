@@ -30,10 +30,14 @@ bool Cell::isVacant() const {
 }
 
 bool Cell::occupy(Object* object) {
+	if(object == 0)
+		return false;
+
 	if(!this->isVacant())
 		return false;
 
 	this->occupant = object;
+	this->occupant->setPosition(this->position);
 	this->vacancy = false;
 
 	return true;

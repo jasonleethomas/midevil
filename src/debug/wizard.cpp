@@ -4,36 +4,37 @@
 #include <string>
 
 using std::string;
+using navigate::Point;
 using classify::Type;
 using classify::Level;
 
-Wizard::Wizard(Level level) 
-	: Character(level, classify::Wizard) {}
+Wizard::Wizard(Point position, Level level) 
+	: Character(position, level, classify::Wizard) {}
 
-GrandWizard::GrandWizard() 
-	: Wizard(classify::Grand) {}
+GrandWizard::GrandWizard(Point position) 
+	: Wizard(position, classify::Grand) {}
 
-MasterWizard::MasterWizard() 
-	: Wizard(classify::Master) {}
+MasterWizard::MasterWizard(Point position) 
+	: Wizard(position, classify::Master) {}
 
-LightWizard::LightWizard() 
-	: Wizard(classify::Light) {}
+LightWizard::LightWizard(Point position) 
+	: Wizard(position, classify::Light) {}
 
-DarkWizard::DarkWizard()
-	: Wizard(classify::Dark) {}
+DarkWizard::DarkWizard(Point position)
+	: Wizard(position, classify::Dark) {}
 
 string GrandWizard::toString() {
-	return "Zg";
+	return " Zg ";
 }
 
 string MasterWizard::toString() {
-	return "Zm";
+	return " Zm ";
 }
 
 string LightWizard::toString() {
-	return "Zl";
+	return " Zl ";
 }
 
 string DarkWizard::toString() {
-	return "Zd";
+	return " Zd ";
 }
