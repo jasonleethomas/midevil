@@ -28,6 +28,7 @@ private:
 
 public:
 	Character(Point, Level, Type);
+	bool operator==(const Character&) const;
 
 	Level getLevel() const;
 	Type getType() const;

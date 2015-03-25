@@ -31,6 +31,10 @@ Character::Character(Point position, Level level, Type type)
 	this->cost = getCharacterCost(this->level, this->type);
 }
 
+bool Character::operator==(const Character& other) const {
+	return (this->getID() == other.getID());
+}
+
 Level Character::getLevel() const {
 	return this->level;
 }

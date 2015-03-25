@@ -1,6 +1,8 @@
 #include <object.h>
 #include <navigate.h>
 #include <string.h>
+#include <boost/uuid/uuid.hpp>
+#include <boost/uuid/uuid_generators.hpp>
 
 using std::string;
 
@@ -8,8 +10,12 @@ int Object::count = 0;
 
 Object::Object(navigate::Point position) {
 	this->position = position;
-	this->id = genId();
+	this->id = boost::uuids::random_generator()();
 	count++;
+}
+
+bool Object::operator==(const Object& other) const {
+	return (this->getID() == other.getID());
 }
 
 navigate::Point Object::getPosition() const {
@@ -20,10 +26,6 @@ void Object::setPosition(navigate::Point position) {
 	this->position = position;
 }
 
-string Object::getId() const {
+ObjectID Object::getID() const {
 	return this->id;
-}
-
-string Object::genId() {
-	return "";
 }

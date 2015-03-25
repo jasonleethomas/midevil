@@ -12,13 +12,13 @@
 #include <iostream>
 #include <sstream>
 #include <string>
-#include <vector>
+#include <list>
 #include <algorithm>
 #include <stdlib.h>
 #include <time.h>
 #include <unistd.h>
 
-using std::vector;
+using std::list;
 using navigate::Point;
 
 namespace Teams {
@@ -35,9 +35,9 @@ Arena::Arena(Point dimensions) {
 	this->dimensions = dimensions;
 
 	this->cells = new Cell**[this->dimensions.x];
-	for(uint8_t x = 0; x < this->dimensions.x; x++) {
+	for(int x = 0; x < this->dimensions.x; x++) {
 		this->cells[x] = new Cell*[this->dimensions.y];
-		for(uint8_t y = 0; y < this->dimensions.y; y++) {
+		for(int y = 0; y < this->dimensions.y; y++) {
 			Point thisPoint;	 
 			thisPoint.x = x;
 			thisPoint.y = y;
@@ -47,8 +47,8 @@ Arena::Arena(Point dimensions) {
 }
 
 Arena::~Arena() {
-	for(uint8_t x = 0; x < this->dimensions.x; x++) {
-		for(uint8_t y = 0; y < this->dimensions.y; y++) {
+	for(int x = 0; x < this->dimensions.x; x++) {
+		for(int y = 0; y < this->dimensions.y; y++) {
 			if(this->cells[x][y]->getOccupant() != 0)
 				delete this->cells[x][y]->getOccupant();
 			delete this->cells[x][y];
@@ -67,33 +67,34 @@ Arena* Arena::getArena(Point dimensions) {
 }
 
 void Arena::shuffle() {
-	Character* thisCharacter = this->animateObjects.back();
+	Character* thisCharacter = this->animateObjects.front();
 
-	for(int moves = 0; moves < thisCharacter->getSpeed(); moves++) {
+//	for(int moves = 0; moves < thisCharacter->getSpeed(); moves++) {
 		Point thisPoint = thisCharacter->getPosition();
-		Point thatPoint = {
-			rand() % thisCharacter->getRange(),
-			rand() % thisCharacter->getRange()
-		};
+		Point thatPoint;
+		thatPoint.x = (thisPoint.x 
+			+ (rand() % thisCharacter->getRange())) % this->dimensions.x;
+		thatPoint.y = (thisPoint.y 
+			+ (rand() % thisCharacter->getRange())) % this->dimensions.y;
 		
 		Cell* thisCell = this->cells[thisPoint.x][thisPoint.y];
 		Cell* thatCell = this->cells[thatPoint.x][thatPoint.y];
 
 		if(thatCell->isVacant()) {
-			thisCell->vacate();
 			thatCell->occupy(thisCharacter);
+			thisCell->vacate();
 		}
 		else {
 			Object* thatObject = thatCell->getOccupant();
-
-			if(thatObject->fights()) {
+					
+			if(thatObject && thatObject->fights()) {
 				Character* thatCharacter = (Character*) thatObject;
 
 				thisCharacter->attack(thatCharacter);
 				if(thatCharacter->isDead()) {
-					thisCell->vacate();
 					thatCell->vacate();
 					thatCell->occupy(thisCharacter);
+					thisCell->vacate();
 
 					switch(thatCharacter->getType()) {
 					case classify::Warrior:
@@ -104,20 +105,19 @@ void Arena::shuffle() {
 						break;
 					}
 				
-					vector<Character*>::iterator inactiveObject;
+					list<Character*>::iterator inactiveObject;
 					inactiveObject = std::find(this->animateObjects.begin(), 
 						this->animateObjects.end(), thatCharacter);
 			
 					this->animateObjects.erase(inactiveObject);
-					delete thatCharacter;
+					//delete thatCharacter;
 				}
 			}
 		}	
-	}		
+	//}		
 
-	this->animateObjects.insert(this->animateObjects.begin(),
-		thisCharacter);
-	this->animateObjects.pop_back();
+	this->animateObjects.push_back(thisCharacter);
+	this->animateObjects.pop_front();
 					
 }
 

@@ -38,9 +38,8 @@ int main() {
 	while(!arena->foundWinner()) {
 		arena->shuffle();
 		std::cout << arena->toString() << std::endl;
-		usleep(500000);
+		sleep(1);
 	}
-
 	delete arena;
 
 	return 0;

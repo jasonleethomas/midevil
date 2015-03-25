@@ -4,21 +4,27 @@
 #include <string>
 #include <json/json.h>
 #include <navigate.h>
+#include <boost/uuid/uuid.hpp>
 
 using std::string;
 
+typedef boost::uuids::uuid ObjectID;
+
 class Object {
 private:
+	ObjectID id;
+
 	static int count;
-	string id;
-	string genId();
 	navigate::Point position;
 	
 public:
 	static int getCount();
 
 	Object(navigate::Point position);
-	string getId() const;
+	ObjectID getID() const;
+
+	bool operator==(const Object&) const;
+
 	navigate::Point getPosition() const;
 	void setPosition(navigate::Point);
 	

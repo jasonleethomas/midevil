@@ -1,7 +1,7 @@
 #ifndef ARENA_H
 #define ARENA_H
 
-#include <vector>
+#include <list>
 #include <navigate.h>
 #include <classify.h>
 #include <object.h>
@@ -16,8 +16,8 @@ private:
 	Point dimensions;
 	Cell*** cells;
 	
-	std::vector<Character*> animateObjects;
-	std::vector<Obstacle*> inanimateObjects;
+	std::list<Character*> animateObjects;
+	std::list<Obstacle*> inanimateObjects;
 
 	Arena(Point);
 
