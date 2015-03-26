@@ -68,9 +68,14 @@ bool Character::fights() {
 }
 
 bool Character::attack(Character* opponent) {
-	opponent->defend(this);
-	if(!opponent->isDead())
+	if(opponent->getType() == this->type)
+ 		return false;
+
+	opponent->defend(this);			
+	if(opponent->isDead())
 		this->xp += 1;
+
+	return true;
 }
 
 void Character::defend(Character* opponent) {

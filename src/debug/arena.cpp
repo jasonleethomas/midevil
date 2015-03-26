@@ -97,7 +97,7 @@ void Arena::shuffle() {
 			else {
 				Object* thatObject = thatCell->getOccupant();
 	
-				if(thatObject && thatObject->fights()) {
+				if(thatObject->fights()) {
 					Character* thatCharacter = (Character*) thatObject;
 
 					thisCharacter->attack(thatCharacter);
