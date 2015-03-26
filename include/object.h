@@ -8,7 +8,7 @@
 
 using std::string;
 
-typedef boost::uuids::uuid ObjectID;
+typedef int ObjectID;
 
 class Object {
 private:

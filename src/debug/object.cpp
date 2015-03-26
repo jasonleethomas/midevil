@@ -10,7 +10,7 @@ int Object::count = 0;
 
 Object::Object(navigate::Point position) {
 	this->position = position;
-	this->id = boost::uuids::random_generator()();
+	this->id = count;
 	count++;
 }
 

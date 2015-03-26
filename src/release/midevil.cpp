@@ -36,10 +36,14 @@ int main() {
 	arena->occupy();
 
 	while(!arena->foundWinner()) {
-		arena->shuffle();
 		std::cout << arena->toString() << std::endl;
-		sleep(1);
+		arena->shuffle();
+		usleep(500000);
 	}
+
+	std::cout << arena->toString() << std::endl
+						<< arena->getWinner() << " win!" << std::endl;
+
 	delete arena;
 
 	return 0;

@@ -48,15 +48,22 @@ Arena::Arena(Point dimensions) {
 
 Arena::~Arena() {
 	for(int x = 0; x < this->dimensions.x; x++) {
-		for(int y = 0; y < this->dimensions.y; y++) {
-			if(this->cells[x][y]->getOccupant() != 0)
-				delete this->cells[x][y]->getOccupant();
+		for(int y = 0; y < this->dimensions.y; y++) 
 			delete this->cells[x][y];
-		}
 		delete [] this->cells[x];
 	}
 
 	delete [] this->cells;
+
+	std::list<Character*>::iterator thisCharacter
+		= this->animateObjects.begin();
+	for(; thisCharacter != this->animateObjects.end(); thisCharacter++)
+		delete *thisCharacter;
+
+	list<Obstacle*>::iterator thisObstacle
+		= this->inanimateObjects.begin();
+	for(; thisObstacle != this->inanimateObjects.end(); thisObstacle++)
+		delete *thisObstacle;
 }
 
 Arena* Arena::getArena(Point dimensions) {
@@ -67,58 +74,54 @@ Arena* Arena::getArena(Point dimensions) {
 }
 
 void Arena::shuffle() {
-	Character* thisCharacter = this->animateObjects.front();
 
-//	for(int moves = 0; moves < thisCharacter->getSpeed(); moves++) {
-		Point thisPoint = thisCharacter->getPosition();
-		Point thatPoint;
-		thatPoint.x = (thisPoint.x 
-			+ (rand() % thisCharacter->getRange())) % this->dimensions.x;
-		thatPoint.y = (thisPoint.y 
-			+ (rand() % thisCharacter->getRange())) % this->dimensions.y;
-		
-		Cell* thisCell = this->cells[thisPoint.x][thisPoint.y];
-		Cell* thatCell = this->cells[thatPoint.x][thatPoint.y];
+	Character* thisCharacter = animateObjects.front();
 
-		if(thatCell->isVacant()) {
-			thatCell->occupy(thisCharacter);
-			thisCell->vacate();
-		}
-		else {
-			Object* thatObject = thatCell->getOccupant();
-					
-			if(thatObject && thatObject->fights()) {
-				Character* thatCharacter = (Character*) thatObject;
+	if(!thisCharacter->isDead()) {
+		for(int moves = 0; moves < thisCharacter->getSpeed(); moves++) {
+			Point thisPoint = thisCharacter->getPosition();
+			Point thatPoint;
+			thatPoint.x = (thisPoint.x 
+				+ (rand() % thisCharacter->getRange())) % this->dimensions.x;
+			thatPoint.y = (thisPoint.y 
+				+ (rand() % thisCharacter->getRange())) % this->dimensions.y;
 
-				thisCharacter->attack(thatCharacter);
-				if(thatCharacter->isDead()) {
-					thatCell->vacate();
-					thatCell->occupy(thisCharacter);
-					thisCell->vacate();
+			Cell* thisCell = this->cells[thisPoint.x][thisPoint.y];
+			Cell* thatCell = this->cells[thatPoint.x][thatPoint.y];
 
-					switch(thatCharacter->getType()) {
-					case classify::Warrior:
-						Teams::warriors--;
-						break;
-					case classify::Wizard:
-						Teams::wizards--;
-						break;
-					}
-				
-					list<Character*>::iterator inactiveObject;
-					inactiveObject = std::find(this->animateObjects.begin(), 
-						this->animateObjects.end(), thatCharacter);
-			
-					this->animateObjects.erase(inactiveObject);
-					//delete thatCharacter;
-				}
+			if(thatCell->isVacant()) {
+				thatCell->occupy(thisCharacter);
+				thisCell->vacate();
 			}
-		}	
-	//}		
 
-	this->animateObjects.push_back(thisCharacter);
-	this->animateObjects.pop_front();
-					
+			else {
+				Object* thatObject = thatCell->getOccupant();
+	
+				if(thatObject && thatObject->fights()) {
+					Character* thatCharacter = (Character*) thatObject;
+
+					thisCharacter->attack(thatCharacter);
+					if(thatCharacter->isDead()) {
+						thatCell->vacate();
+						thatCell->occupy(thisCharacter);
+						thisCell->vacate();
+
+						switch(thatCharacter->getType()) {
+						case classify::Warrior:
+							Teams::warriors--;
+							break;
+						case classify::Wizard:
+							Teams::wizards--;
+							break;
+						}
+					}
+				}
+			}	
+		}
+	}
+
+	animateObjects.push_back(thisCharacter);
+	animateObjects.pop_front();
 }
 
 void Arena::occupy() {
@@ -180,14 +183,14 @@ void Arena::occupy() {
 }
 
 bool Arena::foundWinner() {
-	return (Teams::wizards == 0 || Teams::warriors == 0);
+	return (Teams::wizards < 1 || Teams::warriors < 1);
 }
 
-classify::Type Arena::getWinner() {
-	if(Teams::wizards == 0)
-		return classify::Wizard;
+string Arena::getWinner() {
+	if(Teams::wizards < 1)
+		return "Warriors";
 	else 
-		return classify::Warrior;
+		return "Wizards";
 }
 
 string Arena::toString() {

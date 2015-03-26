@@ -34,7 +34,7 @@ public:
 	void occupy();
 
 	bool foundWinner();
-	classify::Type getWinner();
+	string getWinner();
 
 	string toString();
 
