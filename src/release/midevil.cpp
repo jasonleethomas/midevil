@@ -16,6 +16,12 @@
 #include <warrior.h>
 #include <obstacle.h>
 
+#if defined(_WIN32) || defined(_WIN64)
+#define clear_screen() system("cls")
+#else
+#define clear_screen() system("clear")
+#endif
+
 using std::vector;
 using classify::Level;
 using classify::Type;
@@ -36,13 +42,15 @@ int main() {
 	arena->occupy();
 
 	while(!arena->foundWinner()) {
+		clear_screen();
 		std::cout << arena->toString() << std::endl;
 		arena->shuffle();
 		usleep(500000);
 	}
 
-	std::cout << arena->toString() << std::endl
-						<< arena->getWinner() << " win!" << std::endl;
+	clear_screen();
+	std::cout << arena->toString() 	<< std::endl
+						<< arena->getWinner() << " win! \n\n";
 
 	delete arena;
 
