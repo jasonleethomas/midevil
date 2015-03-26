@@ -4,7 +4,6 @@
 #include <string>
 #include <json/json.h>
 #include <navigate.h>
-#include <boost/uuid/uuid.hpp>
 
 using std::string;
 

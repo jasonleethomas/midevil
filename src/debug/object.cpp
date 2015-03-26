@@ -1,8 +1,6 @@
 #include <object.h>
 #include <navigate.h>
 #include <string.h>
-#include <boost/uuid/uuid.hpp>
-#include <boost/uuid/uuid_generators.hpp>
 
 using std::string;
 
