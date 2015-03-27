@@ -3,52 +3,83 @@
 #include <stdint.h>
 #include <classify.h>
 #include <navigate.h>
+#include <settings.h>
 #include <string>
 
+using namespace characterSettings;
+using navigate::Point;
 using classify::Level;
 using classify::Type;
-using navigate::Point;
 using std::string;
 
-Character::Character() : Object() {}
+int Character::count = 0;
 
-Character::Character(Point position, Type type, Level level) 
-	: Object(position) {
-
+Character::Character(Point position, Level level, Type type) 
+	: Object(position) {	
+	count++;
+	this->level = level;
 	this->type = type;
-	this->level = level;			
+	this->xp = 0;			
+
+	this->dead = false;
+
+	this->health = getCharacterHealth(this->level, this->type);
+	this->damage = getCharacterDamage(this->level, this->type);
+	this->range = getCharacterRange(this->level, this->type);
+	this->speed = getCharacterSpeed(this->level, this->type);
+
+	this->cost = getCharacterCost(this->level, this->type);
 }
 
-Level Character::getLevel() {
+bool Character::operator==(const Character& other) const {
+	return (this->getID() == other.getID());
+}
+
+Level Character::getLevel() const {
 	return this->level;
 }
 
-Type Character::getType() {
+Type Character::getType() const {
 	return this->type;
 }
 
-int getRange() {
+bool Character::isDead() const {
+	return this->dead;
+}
+
+int Character::getHealth() const {
+	return this->health;
+}
+
+int Character::getDamage() const {
+	return this->damage;
+}
+
+int Character::getRange() const {
 	return this->range;
 }
 
-bool Character::movedBy(Object* object) {
-	Character* opponent = (Character*) object;
-	if(this->type != opponent->type) {
-		if(this->level <= opponent->level) 
-			return true;
-	}
-
-	return false;
+int Character::getSpeed() const {
+	return this->speed;
 }
 
-bool Character::reactTo(Object* object) {
+bool Character::fights() {
 	return true;
 }
 
-void Character::moveTo(Point position) {
-	this->setPosition(position);
+bool Character::attack(Character* opponent) {
+	if(opponent->getType() == this->type)
+ 		return false;
+
+	opponent->defend(this);			
+	if(opponent->isDead())
+		this->xp += 1;
+
+	return true;
 }
 
-string Character::toString() {
-	return "C";
+void Character::defend(Character* opponent) {
+	this->health -= opponent->getDamage();
+	if(this->health <= 0)
+		this->dead = true;
 }

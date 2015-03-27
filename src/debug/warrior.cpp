@@ -3,28 +3,37 @@
 #include <string>
 
 using std::string;
-
-Warrior::Warrior() : Character({0,0}, classify::Warrior,
-	classify::Novice) {}
+using navigate::Point;
+using classify::Type;
+using classify::Level;
 
 Warrior::Warrior(Point position, Level level) 
-	: Character(position, classify::Warrior, level) {}
+	: Character(position, level, classify::Warrior) {}
 
-string Warrior::toString() {
-	string str;
+GrandWarrior::GrandWarrior(Point position) 
+	: Warrior(position, classify::Grand) {}
 
-	switch(this->level) {
-	case classify::Grand:
-		str += "G"; break;
-	case classify::Master:
-		str += "M"; break;
-	case classify::Novice:		
-		str += "N"; break;
-	default:
-		str += "N"; break;
-	}
+MasterWarrior::MasterWarrior(Point position) 
+	: Warrior(position, classify::Master) {}
 
-	str += "R";
+LightWarrior::LightWarrior(Point position) 
+	: Warrior(position, classify::Light) {}
 
-	return str;
+DarkWarrior::DarkWarrior(Point position) 
+	: Warrior(position, classify::Dark) {}
+
+string GrandWarrior::toString() {
+	return " RG ";
+}
+
+string MasterWarrior::toString() {
+	return " RM ";
+}
+
+string LightWarrior::toString() {
+	return " RL ";
+}
+
+string DarkWarrior::toString() {
+	return " RD ";
 }

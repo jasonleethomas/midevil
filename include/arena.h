@@ -1,8 +1,9 @@
 #ifndef ARENA_H
 #define ARENA_H
 
-#include <vector>
+#include <list>
 #include <navigate.h>
+#include <classify.h>
 #include <object.h>
 #include <cell.h>
 #include <character.h>
@@ -15,10 +16,9 @@ private:
 	Point dimensions;
 	Cell*** cells;
 	
-	std::vector<Character*> animateObjects;
-	std::vector<Obstacle*> inanimateObjects;
+	std::list<Character*> animateObjects;
+	std::list<Obstacle*> inanimateObjects;
 
-	Arena();
 	Arena(Point);
 
 	Arena(const Arena& copy);
@@ -27,17 +27,20 @@ private:
 	static Arena* arena;
 
 public:
-	static Arena* getArena();
 	static Arena* getArena(Point);
 
-	void create();
-	void destroy();
 	void settings();
 	void shuffle();
+	void occupy();
+
+	bool foundWinner();
+	string getWinner();
+
 	string toString();
 
 	~Arena();
 };
+
 #endif
 
 

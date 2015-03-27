@@ -2,16 +2,15 @@
 #define OBSTACLE_H
 
 #include <navigate.h>
+#include <string>
 #include <object.h>
 
 class Obstacle : public Object {
 public:
-	Obstacle();
 	Obstacle(navigate::Point);
 
-	virtual bool movedBy(Object*);
-	virtual bool reactTo(Object*);
-	virtual string toString();
+	bool fights();
+	std::string toString();
 
 	virtual ~Obstacle() {}
 };

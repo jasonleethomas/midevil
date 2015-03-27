@@ -1,5 +1,4 @@
 #include <cell.h>
-#include <object.h>
 #include <stdint.h>
 #include <navigate.h>
 
@@ -22,7 +21,6 @@ Cell::Cell(Point position, Object* object) {
 	this->vacancy = false;	
 	this->position = position;
 	this->occupant = object;
-	this->occupant->setPosition(this->position);
 }
 
 Cell::~Cell() {}
@@ -33,6 +31,9 @@ bool Cell::isVacant() const {
 
 bool Cell::occupy(Object* object) {
 	if(object == 0)
+		return false;
+
+	if(!this->isVacant())
 		return false;
 
 	this->occupant = object;

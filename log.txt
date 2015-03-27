@@ -1,0 +1,1 @@
+g++ ./src/debug/*.cpp -I./include -c ./build

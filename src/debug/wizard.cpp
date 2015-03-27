@@ -1,30 +1,40 @@
 #include <wizard.h>
+#include <navigate.h>
 #include <classify.h>
 #include <string>
 
 using std::string;
-
-Wizard::Wizard() : Character({0,0}, classify::Wizard,
-	classify::Novice) {}
+using navigate::Point;
+using classify::Type;
+using classify::Level;
 
 Wizard::Wizard(Point position, Level level) 
-	: Character(position, classify::Wizard, level) {}
+	: Character(position, level, classify::Wizard) {}
 
-string Wizard::toString() {
-	string str;
+GrandWizard::GrandWizard(Point position) 
+	: Wizard(position, classify::Grand) {}
 
-	switch(this->level) {
-	case classify::Grand:
-		str += "G"; break;
-	case classify::Master:
-		str += "M"; break;
-	case classify::Novice:		
-		str += "N"; break;
-	default:
-		str += "N"; break;
-	}
+MasterWizard::MasterWizard(Point position) 
+	: Wizard(position, classify::Master) {}
 
-	str += "Z";
+LightWizard::LightWizard(Point position) 
+	: Wizard(position, classify::Light) {}
 
-	return str;
+DarkWizard::DarkWizard(Point position)
+	: Wizard(position, classify::Dark) {}
+
+string GrandWizard::toString() {
+	return " ZG ";
+}
+
+string MasterWizard::toString() {
+	return " ZM ";
+}
+
+string LightWizard::toString() {
+	return " ZL ";
+}
+
+string DarkWizard::toString() {
+	return " ZD ";
 }

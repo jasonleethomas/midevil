@@ -1,12 +1,10 @@
 #ifndef NAVIGATION_H
 #define NAVIGATION_H
 
-#include <stdint.h>
-
 namespace navigate {
 	struct Point {
-		uint8_t x;
-		uint8_t y;
+		int x;
+		int y;
 	};
 	
 	const Point minBoundary = {3,3};

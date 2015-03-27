@@ -5,30 +5,29 @@
 #include <json/json.h>
 #include <navigate.h>
 
-using navigate::Point;
 using std::string;
+
+typedef int ObjectID;
 
 class Object {
 private:
-	static int count;
-	string id;
-	string genId();
+	ObjectID id;
 
-protected:	
-	Point position;
+	static int count;
+	navigate::Point position;
 	
 public:
 	static int getCount();
 
-	Object();
-	Object(Point);
+	Object(navigate::Point position);
+	ObjectID getID() const;
 
-	Point getPosition() const;
-	void setPosition(Point);
-	string getId() const;
+	bool operator==(const Object&) const;
 
-	virtual bool movedBy(Object*) = 0;
-	virtual bool reactTo(Object*) = 0;
+	navigate::Point getPosition() const;
+	void setPosition(navigate::Point);
+	
+	virtual bool fights() = 0;
 	virtual string toString() = 0;
 
 	virtual ~Object() {};
