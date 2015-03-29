@@ -1,6 +1,6 @@
 { 
 	"game": {
-		
+
 	},
 
 	"object": {
@@ -14,24 +14,26 @@
 
 		"portal": {
 			"count": 0
-			}
+		}
 	},	
 
 	"player": {
 		"first": {
 			"team": "wizard",
-			"hp": 100
+			"coin": 100
 		},
 
 		"second": {
 			"team": "warrior",
-			"hp": 100
+			"coin": 100
 		},
 
 		"computer": {
 			"team": "warrior",
-			"hp": 100
-		}
+			"coin": 100
+		},
+
+		"count": 2
 	},
 
 	"arena": {
@@ -49,16 +51,6 @@
 	},
 
 	"character": {
-		"dragon": {
-			"attributes": {
-				"range": 5,
-				"speed": 5
-			},
-
-			"count": 0,
-			"cost": 0
-		},
-
 		"warrior": {
 			"grand": {
 				"attributes": {
@@ -69,7 +61,7 @@
 				},
 
 				"count": 0,
-				"cost": 0
+				"cost": 150000
 			},
 
 			"master": {
@@ -81,7 +73,7 @@
 				},
 
 				"count": 0,
-				"cost": 0
+				"cost": 50000
 			},
 
 			"light": {

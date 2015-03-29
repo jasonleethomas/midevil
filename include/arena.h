@@ -32,6 +32,7 @@ public:
 	void settings();
 	void shuffle();
 	void occupy();
+	void occupyCell(Point, Object*);
 
 	bool foundWinner();
 	string getWinner();

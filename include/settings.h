@@ -26,16 +26,24 @@ private:
 	Settings operator=(const Settings& copy);	
 
 	Json::Value getSettings() const;
+	void setSettings(Json::Value);
 
 public:		
 	static Settings* getHandle();
+	void revertSettings();
 	
 	static Json::Value getGameSettings();
-	static Json::Value getArenaSettings(Point);
+	static Json::Value getArenaSettings();
+	static Json::Value getPlayerSettings(classify::User);
 	static Json::Value getCharacterSettings(classify::Level,
 	 classify::Type);
 
-	bool updateSettings();
+
+	static void setGameSettings(Json::Value);
+	static void setArenaSettings(Json::Value);
+	static void setPlayerSettings(classify::User, Json::Value);
+	static void setCharacterSettings(classify::Level, 
+		classify::Type, Json::Value);
 
 	~Settings();
 };
@@ -44,16 +52,15 @@ using classify::Type;
 using classify::Level;
 
 namespace gameSettings {
-	int getNumPlayers();
-	void setNumPlayers(int);
+	void setMode(classify::Mode);
 }
 
 namespace playerSettings {
-	Type getTeam();
-	int getHP();
+	Type getTeam(classify::User);
+	int getCoin(classify::User);
 	
-	void setTeam(Player, Type);
-	void setHP(Player, int);
+	void setTeam(classify::User, classify::Type);
+	void setCoin(classify::User, int);
 }
 
 namespace arenaSettings {
@@ -67,10 +74,14 @@ namespace obstacleSettings {
 }
 
 namespace characterSettings {
+
 	int getCharacterHealth(classify::Level, classify::Type);
 	int getCharacterSpeed(classify::Level, classify::Type);
 	int getCharacterRange(classify::Level, classify::Type);
 	int getCharacterDamage(classify::Level, classify::Type);
 	int getCharacterCount(classify::Level, classify::Type);
 	int getCharacterCost(classify::Level, classify::Type);
+
+	void setCharacterCost(classify::Level, classify::Type, int);
+	void setCharacterCount(classify::Level, classify::Type, int);
 }
