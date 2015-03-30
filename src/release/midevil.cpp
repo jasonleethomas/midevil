@@ -8,6 +8,7 @@
 
 #include <navigate.h>
 #include <classify.h>
+#include <game.h>
 #include <arena.h>
 #include <cell.h>
 #include <object.h>
@@ -33,26 +34,45 @@ namespace error {
 	string message;
 }
 
-void occupyArena(Cell***, Point);
+namespace gameio {
+	enum Story {Introduction, SelectMode, SelectTeams, }
+	int gameMode;
+	int firstTeam;
+	int secondTeam;
+}
+
+void cutscene();
 
 int main() {
 
-	Arena* arena = Arena::getArena(maxBoundary);
+	cutscene();
 	
-	arena->occupy();
-
-	while(!arena->foundWinner()) {
-		clear_screen();
-		std::cout << arena->toString() << std::endl;
-		arena->shuffle();
-		usleep(500000);
-	}
-
-	clear_screen();
-	std::cout << arena->toString() 	<< std::endl
-						<< arena->getWinner() << " win! \n\n";
-
-	delete arena;
-
 	return 0;
 }
+
+
+void cutscene() {
+	static int storypoint = 0;	
+	std::string story;
+
+	switch(storypoint) {
+	case 0:
+		story = \
+		"In a time long, long ago, the Warriors of Rygon were locked \n\
+		in deep battle against the Wizards of Zoruvia. \n\
+		One day two mysterious figures, battle hardened and wise,\
+		show up, claiming to have come from the future to end this \n\
+		battle once and for all. The world awaited their decision \n\
+		which sides were they on?";
+		break;
+	case 1:
+		story = \;
+		break;
+	}
+
+	std::cout << story;
+	storypoint++;
+}
+
+void getTeams() {}
+

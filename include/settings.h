@@ -38,7 +38,6 @@ public:
 	static Json::Value getCharacterSettings(classify::Level,
 	 classify::Type);
 
-
 	static void setGameSettings(Json::Value);
 	static void setArenaSettings(Json::Value);
 	static void setPlayerSettings(classify::User, Json::Value);

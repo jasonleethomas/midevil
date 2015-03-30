@@ -216,8 +216,26 @@ namespace characterSettings {
 	}
 
 	void setCharacterCost(classify::Level level,
-		classify::Type type, int cost) {}
+		classify::Type type, int cost) {
+
+		Json::Value characterSettings =
+			Settings::getCharacterSettings(level, type);
+
+		characterSettings["cost"] = cost;
+
+		Settings::setCharacterSettings(level, type, characterSettings);
+
+	}
 
 	void setCharacterCount(classify::Level level,
-		classify::Type type, int count) {}
+		classify::Type type, int count) {
+
+		Json::Value characterSettings = 
+			Settings::getCharacterSettings(level, type);
+
+		characterSettings["count"] = count;
+
+		Settings::setCharacterSettings(level, type, characterSettings);
+
+	}
 }

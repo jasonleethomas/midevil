@@ -1,18 +1,24 @@
-#include <game.h>
 #include <iostream>
+#include <game.h>
+#include <classify.h>
+#include <player.h>
+#include <arena.h>
+#include <settings.h>
 
-Game::Game() {};
-Game::Game(Game const& copy) {};
-Game& Game::operator=(Game const& copy) {};
+using namespace gameSettings;
 
-Game* Game::getGame() {
-	static Game game;
+Game::Game(classify::Mode mode) {
+	this->mode = mode;
+	setMode(this->mode);
+};
+
+Game* Game::getGame(classify::Mode mode) {
+	static Game game(mode);
 
 	return &game;
 }
 
-bool Game::begin() {}
+void Game::begin() {}
 
-bool Game::end() {}
 
 Game::~Game() {}

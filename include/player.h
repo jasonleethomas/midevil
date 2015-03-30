@@ -3,18 +3,15 @@
 
 #include <classify.h>
 
-using classify::Type;
-using classify::User;
-
 class Player {
 private:
-	User user;
-	Type team;
+	classify::User user;
+	classify::Type team;
 
 	int coin;
 	
 public:
-	Player(User, Type);
+	Player(classify::User, classify::Type);
 	
 	void pickTeam();	
 };

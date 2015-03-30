@@ -4,7 +4,7 @@
 
 using namespace playerSettings;
 
-Player::Player(User user, Type team) {
+Player::Player(classify::User user, classify::Type team) {
 	this->user = user;
 	this->team = team;
 	
