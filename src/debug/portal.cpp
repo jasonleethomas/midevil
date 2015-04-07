@@ -6,12 +6,10 @@
 #include <settings.h>
 #include <string>
 
-Portal::Portal(Point position) : Obstacle(position) {}
+Portal::Portal(navigate::Point position) : Obstacle(position) {}
 
-navigate::Point transport(Character* character) {
+navigate::Point Portal::transport(Character* character) {}
 
-}
-
-std::string toString() {
+std::string Portal::toString() {
 	return "PP";
 }

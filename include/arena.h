@@ -19,7 +19,7 @@ private:
 	std::list<Character*> animateObjects;
 	std::list<Obstacle*> inanimateObjects;
 
-	Arena(Point);
+	Arena();
 
 	Arena(const Arena& copy);
 	Arena& operator=(const Arena& copy);
@@ -27,7 +27,7 @@ private:
 	static Arena* arena;
 
 public:
-	static Arena* getArena(Point);
+	static Arena* getArena();
 
 	void settings();
 	void shuffle();

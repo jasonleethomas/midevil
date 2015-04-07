@@ -12,22 +12,18 @@
 #include <player.h>
 #include <arena.h>
 
-
 class Game {
 private:
 	classify::Mode mode;
 	Player* players[2];
 	Arena* arena;
 
-	Game(classify::Mode);
+	Game();
 	Game(Game const& copy);
 	Game& operator=(Game const& copy);
 
 public:
-	static Game* getGame(classify::Mode);
-
-	void setTeams(classify::Type, classify::Type);
-	void setArenaDimensions(navigate::Point);
+	static Game* getGame();
 
 	void begin();
 

@@ -17,8 +17,7 @@ namespace classify {
 	Level stringToLevel(std::string);
 	Type stringToType(std::string);
 	User stringToUser(std::string);
-	Mode modeToString(std::string);
-
+	Mode stringToMode(std::string);
 }
 
 #endif

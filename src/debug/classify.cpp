@@ -82,13 +82,13 @@ std::string levelToString(Level level) {
 	Level stringToLevel(std::string levelString) {
 		Level level;
 	
-		if(toLower(levelString) == "grand")
-			level = Grand;
-		if(toLower(levelString) == "master")
+		if(levelString == "grand")
+			level = classify::Grand;
+		if(levelString == "master")
 			level = Master;
-		if(toLower(levelString) == "dark")
+		if(levelString == "dark")
 			level = Dark;
-		if(toLower(levelString) == "light")
+		if(levelString == "light")
 			level = Light;
 
 		return level;
@@ -97,9 +97,9 @@ std::string levelToString(Level level) {
 	Type stringToType(std::string typeString) {
 		Type type;
 
-		if(toLower(typeString) == "warrior")
+		if(typeString == "warrior")
 			type = Warrior;
-		if(toLower(typeString) == "wizard")
+		if(typeString == "wizard")
 			type = Wizard;
 
 		return type;
@@ -108,11 +108,11 @@ std::string levelToString(Level level) {
 	User stringToUser(std::string userString) {
 		User user;
 
-		if(toLower(userString) == "first") 
+		if(userString == "first") 
 			user = First;
-		if(toLower(userString) == "second")
+		if(userString == "second")
 			user = Second;
-		if(toLower(userString) == "computer")
+		if(userString == "computer")
 			user = Computer;
 
 		return user;
@@ -121,11 +121,11 @@ std::string levelToString(Level level) {
 	Mode stringToMode(std::string modeString) {
 		Mode mode;
 		
-		if(toLower(modeString) == "singleplayer")
+		if(modeString == "singleplayer")
 			mode = Singleplayer;
-		if(toLower(modeString) == "multiplayer")
+		if(modeString == "multiplayer")
 			mode = Multiplayer;
-		if(toLower(modeString) == "simulation")
+		if(modeString == "simulation")
 			mode = Simulation;
 
 		return mode;

@@ -20,44 +20,35 @@
 	"player": {
 		"first": {
 			"team": "wizard",
-			"hp": 100
+			"coin": 0
 		},
 
 		"second": {
 			"team": "warrior",
-			"hp": 100
+			"coin": 0
 		},
 
 		"computer": {
 			"team": "warrior",
-			"hp": 100
+			"coin": 0
 		}
 	},
 
 	"arena": {
 		"dimensions": {
-			"xdim": 10,
-			"ydim": 10
+			"x": 10,
+			"y": 10
 		}
 	},
 
 	"cell": {
 		"dimensions": {
-			"xdim": 1,
-			"ydim": 1
+			"x": 1,
+			"y": 1
 		}
 	},
 
 	"character": {
-		"dragon": {
-			"attributes": {
-				"range": 5,
-				"speed": 5
-			},
-
-			"count": 0,
-			"cost": 0
-		},
 
 		"warrior": {
 			"grand": {
@@ -69,7 +60,7 @@
 				},
 
 				"count": 0,
-				"cost": 0
+				"cost": 7500
 			},
 
 			"master": {
@@ -81,7 +72,7 @@
 				},
 
 				"count": 0,
-				"cost": 0
+				"cost": 5000
 			},
 
 			"light": {
@@ -93,7 +84,7 @@
 				},
 
 				"count": 0,
-				"cost": 0
+				"cost": 1000
 			},
 
 			"dark": {
@@ -105,7 +96,7 @@
 				},
 
 				"count": 0,
-				"cost": 0
+				"cost": 1000
 			}
 
 		},
@@ -120,7 +111,7 @@
 				},
 
 				"count": 0,
-				"cost": 0
+				"cost": 7500
 			},
 
 			"master": {
@@ -132,7 +123,7 @@
 				},
 
 				"count": 0,
-				"cost": 0
+				"cost": 5000
 			},
 
 			"light": {
@@ -144,7 +135,7 @@
 				},
 
 				"count": 0,
-				"cost": 0
+				"cost": 1000
 			},
 
 			"dark": {
@@ -156,7 +147,7 @@
 				},
 
 				"count": 0,
-				"cost": 0
+				"cost": 1000
 			}
 		}			
 	}

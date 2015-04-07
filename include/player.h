@@ -7,13 +7,10 @@ class Player {
 private:
 	classify::User user;
 	classify::Type team;
-
 	int coin;
 	
 public:
-	Player(classify::User, classify::Type);
-	
-	void pickTeam();	
+	Player(classify::User);
 };
 
 #endif

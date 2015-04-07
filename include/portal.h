@@ -1,6 +1,7 @@
 #ifndef PORTAL_H
 #define PORTAL_H
 
+#include <portal.h>
 #include <obstacle.h>
 #include <navigate.h>
 #include <character.h>

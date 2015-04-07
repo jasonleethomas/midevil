@@ -17,7 +17,8 @@ debug:
 	
 release: 
 	g++ ./src/release/*.cpp ./src/debug/*.cpp -I./include -L./build -o ./bin/midevil
-	./bin/midevil
+
+run:
 	valgrind --tool=memcheck --leak-check=full --show-leak-kinds=all -v ./bin/midevil -Wall
 
 test:
@@ -26,4 +27,4 @@ test:
 
 clean:
 	find . -name '*.o' -delete
-	find . -name '*~' -delete	
+	find . -name '*~' -delete

@@ -26,24 +26,17 @@ namespace Teams {
 	int warriors = 0;
 }
 
-std::string intToString(int num);
-
 Arena* Arena::arena = 0;
 
-Arena::Arena(Point dimensions) {
+Arena::Arena() {
 
-	this->dimensions = dimensions;
+	this->dimensions = arenaSettings::getDimensions();
+	const int numCells = this->dimensions.x * this->dimensions.y;
+	
+	std::list<Object*> randObject;
 
-	this->cells = new Cell**[this->dimensions.x];
-	for(int x = 0; x < this->dimensions.x; x++) {
-		this->cells[x] = new Cell*[this->dimensions.y];
-		for(int y = 0; y < this->dimensions.y; y++) {
-			Point thisPoint;	 
-			thisPoint.x = x;
-			thisPoint.y = y;
-			this->cells[x][y] = new Cell(thisPoint);
-		}
-	}	
+	
+	
 }
 
 Arena::~Arena() {
@@ -66,11 +59,10 @@ Arena::~Arena() {
 		delete *thisObstacle;
 }
 
-Arena* Arena::getArena(Point dimensions) {
-	if(arena == 0)
-		arena = new Arena(dimensions);
+Arena* Arena::getArena() {
+	static Arena arena;
 
-	return arena;
+	return &arena;
 }
 
 void Arena::shuffle() {
@@ -213,12 +205,4 @@ string Arena::toString() {
 	str += "\n";
 
 	return str;
-}
-
-std::string intToString(int num) {
-	std::ostringstream ostr;
-	ostr << num;
-	std::string cstr = ostr.str();
-
-	return cstr;	
 }

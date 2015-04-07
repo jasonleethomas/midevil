@@ -8,24 +8,22 @@
 #include <iostream>
 #include <string>
 
-using namespace characterSettings;
-
 int main () {
 
-	LightWizard* character = new LightWizard();
+	Json::Value playerSettings = Settings::getPlayerSettings(classify::First);
 
-	int health = character->getHealth();
-	int speed = character->getSpeed();
-	int range = character->getRange();
-	int damage = character->getDamage();
+	std::string teamString = playerSettings["team"].asString();
+	std::cout << "team: " << teamString << std::endl;
 
-	std::cout << "health: " << health << std::endl
-						<< "speed: " << speed << std::endl
-						<< "range: " << range << std::endl
-						<< "damage: " << damage << std::endl;
+	teamString = classify::typeToString(classify::Warrior);
+	std::cout << "team: " << teamString << std::endl;
+	playerSettings["team"] = teamString;
+	Settings::setPlayerSettings(classify::First, playerSettings);
 
-	delete character;
-	
+	playerSettings = Settings::getPlayerSettings(classify::First);
+	teamString = playerSettings["team"].asString();
+	std::cout << "team: " << teamString << std::endl; 
+
 	return 0;
 }
 

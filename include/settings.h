@@ -17,7 +17,8 @@ private:
 	static const char* filename;
 
 	Json::Value settings;
-		
+	Json::Value defaultSettings;	
+
 	std::ifstream in;
 	std::ofstream out;
 
@@ -27,6 +28,7 @@ private:
 
 	Json::Value getSettings() const;
 	void setSettings(Json::Value);
+	void updateSettings();
 
 public:		
 	static Settings* getHandle();
@@ -52,19 +54,19 @@ using classify::Level;
 
 namespace gameSettings {
 	void setMode(classify::Mode);
+	classify::Mode getMode();
 }
 
 namespace playerSettings {
-	Type getTeam(classify::User);
+	classify::Type getTeam(classify::User);
 	int getCoin(classify::User);
-	
 	void setTeam(classify::User, classify::Type);
 	void setCoin(classify::User, int);
 }
 
 namespace arenaSettings {
-	Point getDimensions();
-	void setDimensions(Point);
+	navigate::Point getDimensions();
+	void setDimensions(navigate::Point);
 }
 
 namespace obstacleSettings {
@@ -84,3 +86,5 @@ namespace characterSettings {
 	void setCharacterCost(classify::Level, classify::Type, int);
 	void setCharacterCount(classify::Level, classify::Type, int);
 }
+
+std::string intToString(int);
