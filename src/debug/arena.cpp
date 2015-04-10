@@ -13,6 +13,7 @@
 #include <sstream>
 #include <string>
 #include <list>
+#include <vector>
 #include <algorithm>
 #include <stdlib.h>
 #include <time.h>
@@ -31,12 +32,17 @@ Arena* Arena::arena = 0;
 Arena::Arena() {
 
 	this->dimensions = arenaSettings::getDimensions();
-	const int numCells = this->dimensions.x * this->dimensions.y;
-	
-	std::list<Object*> randObject;
 
-	
-	
+	this->cells = new Cell**[this->dimensions.x];
+	for(int x = 0; x < this->dimensions.x; x++) {
+		this->cells[x] = new Cell*[this->dimensions.y];
+		for(int y = 0; y < this->dimensions.y; y++) {
+			navigate::Point thisPoint;
+			thisPoint.x = x;
+			thisPoint.y = y;
+			this->cells[x][y] = new Cell(thisPoint);
+		}
+	}
 }
 
 Arena::~Arena() {
@@ -48,15 +54,21 @@ Arena::~Arena() {
 
 	delete [] this->cells;
 
-	std::list<Character*>::iterator thisCharacter
+	std::vector<Character*>::iterator thisCharacter
 		= this->animateObjects.begin();
-	for(; thisCharacter != this->animateObjects.end(); thisCharacter++)
-		delete *thisCharacter;
+	for(; thisCharacter != this->animateObjects.end(); 
+		thisCharacter++) {
+		if(*thisCharacter)
+			delete *thisCharacter;
+	}
 
-	list<Obstacle*>::iterator thisObstacle
+	std::vector<Obstacle*>::iterator thisObstacle
 		= this->inanimateObjects.begin();
-	for(; thisObstacle != this->inanimateObjects.end(); thisObstacle++)
-		delete *thisObstacle;
+	for(; thisObstacle != this->inanimateObjects.end(); 
+		thisObstacle++) {
+		if(*thisCharacter)
+			delete *thisObstacle;
+	}
 }
 
 Arena* Arena::getArena() {
@@ -67,16 +79,18 @@ Arena* Arena::getArena() {
 
 void Arena::shuffle() {
 
-	Character* thisCharacter = animateObjects.front();
+	Character* thisCharacter = animateObjects.back();
 
 	if(!thisCharacter->isDead()) {
-		for(int moves = 0; moves < thisCharacter->getSpeed(); moves++) {
+		for(int moves = 0; moves < thisCharacter->getSpeed(); moves++) 			{
 			Point thisPoint = thisCharacter->getPosition();
 			Point thatPoint;
 			thatPoint.x = (thisPoint.x 
-				+ (rand() % thisCharacter->getRange())) % this->dimensions.x;
+				+ (rand() % thisCharacter->getRange())) 
+					% this->dimensions.x;
 			thatPoint.y = (thisPoint.y 
-				+ (rand() % thisCharacter->getRange())) % this->dimensions.y;
+				+ (rand() % thisCharacter->getRange())) 
+					% this->dimensions.y;
 
 			Cell* thisCell = this->cells[thisPoint.x][thisPoint.y];
 			Cell* thatCell = this->cells[thatPoint.x][thatPoint.y];
@@ -112,67 +126,117 @@ void Arena::shuffle() {
 		}
 	}
 
-	animateObjects.push_back(thisCharacter);
-	animateObjects.pop_front();
+	animateObjects.insert(animateObjects.begin(), thisCharacter);
+	animateObjects.pop_back();
 }
 
 void Arena::occupy() {
 	srand(time(NULL));
+	
+	using namespace characterSettings;
+	
+	std::vector<navigate::Point> randomPoints;
 
 	for(int x = 0; x < this->dimensions.x; x++) {
 		for(int y = 0; y < this->dimensions.y; y++) {
-			
-			Point thisPoint = {x, y};
-			int objectSeed = rand()	% 10;
-			
-			if(objectSeed >= 5) { 
+			Point thisPoint;
+			thisPoint.x = x;
+			thisPoint.y = y;
 
-				Character* randCharacter;
-
-				int typeSeed = rand() % 10;
-				
-				if(typeSeed >= 5) { 
-					int levelSeed = rand() % 10;					
-							
-					if(levelSeed >= 7) 
-						randCharacter = (Character*) new LightWarrior(thisPoint);
-					else if(levelSeed >= 4) 
-						randCharacter = (Character*) new DarkWarrior(thisPoint);
-					else if(levelSeed >= 2) 
-						randCharacter = (Character*) new MasterWarrior(thisPoint);
-					else 
-						randCharacter = (Character*) new GrandWarrior(thisPoint);
-
-					Teams::warriors++;
-				}	
-				else {
-					int levelSeed = rand() % 10;					
-
-					if(levelSeed >= 7) 
-						randCharacter = (Character*) new LightWizard(thisPoint);
-					else if(levelSeed >= 4) 
-						randCharacter = (Character*) new DarkWizard(thisPoint);
-					else if(levelSeed >= 2) 
-						randCharacter = (Character*) new MasterWizard(thisPoint);
-					else 
-						randCharacter = (Character*) new GrandWizard(thisPoint);
-
-					Teams::wizards++;
-				}						
-				
-				this->cells[x][y]->occupy(randCharacter);
-				animateObjects.push_back(randCharacter);
-					
-			}
-			else if(objectSeed < 1) {
-				Obstacle* randObstacle = new Obstacle(thisPoint);
-
-				this->cells[x][y]->occupy(randObstacle);
-				inanimateObjects.push_back(randObstacle);
-			}
+			randomPoints.push_back(thisPoint);
 		}
 	}
+
+	std::random_shuffle(randomPoints.begin(), randomPoints.end());
+	
+	occupyAnimatedCells(classify::Grand, classify::Wizard,
+		randomPoints);
+	occupyAnimatedCells(classify::Grand, classify::Warrior,
+		randomPoints);
+	occupyAnimatedCells(classify::Master, classify::Wizard,
+		randomPoints);
+	occupyAnimatedCells(classify::Master, classify::Warrior,
+		randomPoints);
+	occupyAnimatedCells(classify::Light, classify::Wizard,
+		randomPoints);
+	occupyAnimatedCells(classify::Light, classify::Warrior,
+		randomPoints);
+	occupyAnimatedCells(classify::Dark, classify::Wizard,
+		randomPoints);
+	occupyAnimatedCells(classify::Dark, classify::Warrior,
+		randomPoints);
+
+	std::random_shuffle(this->animateObjects.begin(), 
+		this->animateObjects.end());
+
 }
+
+void Arena::occupyAnimatedCells(classify::Level level,
+	classify::Type type, std::vector<navigate::Point>& points) {
+
+	int numCharacters 
+		= characterSettings::getCharacterCount(level, type);
+
+	for(int i = 0; i < numCharacters; i++) {
+		navigate::Point thisPoint = points.back();
+		points.pop_back();
+
+		Object* thisObject;
+
+		switch(type) {
+		case classify::Wizard:
+			switch(level) {
+				case classify::Grand:
+					thisObject = 
+						(Object*) new GrandWizard(thisPoint);
+					break;
+				case classify::Master:
+					thisObject = 
+						(Object*) new MasterWizard(thisPoint);				
+					break;
+				case classify::Light:
+					thisObject = 
+						(Object*) new LightWizard(thisPoint);				
+					break;
+				case classify::Dark:
+					thisObject = 
+						(Object*) new DarkWizard(thisPoint);				
+					break;
+			}
+			Teams::wizards++;
+			break;
+		case classify::Warrior:
+			switch(level) {
+				case classify::Grand:
+					thisObject = 
+						(Object*) new GrandWarrior(thisPoint);				
+					break;
+				case classify::Master:
+					thisObject = 
+						(Object*) new MasterWarrior(thisPoint);				
+					break;
+				case classify::Light:
+					thisObject = 
+						(Object*) new LightWarrior(thisPoint);				
+					break;
+				case classify::Dark:
+					thisObject = 
+						(Object*) new DarkWarrior(thisPoint);				
+					break;
+			}
+			Teams::warriors++;
+			break;		
+		}
+
+		this->cells[thisPoint.x][thisPoint.y]->occupy(thisObject);
+		
+		this->animateObjects.push_back((Character*)thisObject);
+
+	}	
+}
+
+
+void Arena::occupyInanimateCells(std::vector<navigate::Point>&) {}
 
 bool Arena::foundWinner() {
 	return (Teams::wizards < 1 || Teams::warriors < 1);

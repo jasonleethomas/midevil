@@ -26,6 +26,8 @@ public:
 	static Game* getGame();
 
 	void begin();
+	void settings();
+	void updateSettings();
 
 	~Game();
 };

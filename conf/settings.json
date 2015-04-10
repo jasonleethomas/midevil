@@ -3,8 +3,8 @@
 	{
 		"dimensions" : 
 		{
-			"x" : 10,
-			"y" : 10
+			"x" : 20,
+			"y" : 20
 		}
 	},
 	"cell" : 
@@ -29,7 +29,7 @@
 					"speed" : 1
 				},
 				"cost" : 1000,
-				"count" : 1860
+				"count" : 9
 			},
 			"grand" : 
 			{
@@ -41,7 +41,7 @@
 					"speed" : 3
 				},
 				"cost" : 7500,
-				"count" : 5
+				"count" : 1
 			},
 			"light" : 
 			{
@@ -53,7 +53,7 @@
 					"speed" : 1
 				},
 				"cost" : 1000,
-				"count" : 1906
+				"count" : 86
 			},
 			"master" : 
 			{
@@ -65,7 +65,7 @@
 					"speed" : 2
 				},
 				"cost" : 5000,
-				"count" : 2
+				"count" : 6
 			}
 		},
 		"wizard" : 
@@ -80,7 +80,7 @@
 					"speed" : 1
 				},
 				"cost" : 1000,
-				"count" : 1797
+				"count" : 45
 			},
 			"grand" : 
 			{
@@ -92,7 +92,7 @@
 					"speed" : 5
 				},
 				"cost" : 7500,
-				"count" : 5
+				"count" : 2
 			},
 			"light" : 
 			{
@@ -104,7 +104,7 @@
 					"speed" : 2
 				},
 				"cost" : 1000,
-				"count" : 1842
+				"count" : 48
 			},
 			"master" : 
 			{
@@ -116,7 +116,7 @@
 					"speed" : 3
 				},
 				"cost" : 5000,
-				"count" : 2
+				"count" : 5
 			}
 		}
 	},
@@ -140,18 +140,18 @@
 	{
 		"computer" : 
 		{
-			"coin" : 0,
-			"team" : "warrior"
+			"coin" : 133000,
+			"team" : "wizard"
 		},
 		"first" : 
 		{
-			"coin" : 33000,
-			"team" : "wizard"
+			"coin" : 133000,
+			"team" : "warrior"
 		},
 		"second" : 
 		{
-			"coin" : 33000,
-			"team" : "warrior"
+			"coin" : 133000,
+			"team" : "wizard"
 		}
 	}
 }

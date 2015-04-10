@@ -24,7 +24,7 @@ Settings::Settings() {
 }
 
 Settings::~Settings() {
-//	this->revertSettings();
+	this->revertSettings();
 }
 
 Settings* Settings::getHandle() {
