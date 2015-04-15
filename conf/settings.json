@@ -1,163 +1,150 @@
-{ 
-	"game": {
-		
-	},
-
-	"object": {
-		
-	},
-
-	"obstacle": {
-		"boulder": {
-			"count": 0
-		},
-
-		"portal": {
-			"count": 0
-			}
-	},	
-
-	"player": {
-		"first": {
-			"team": "wizard",
-			"hp": 100
-		},
-
-		"second": {
-			"team": "warrior",
-			"hp": 100
-		},
-
-		"computer": {
-			"team": "warrior",
-			"hp": 100
+{
+	"arena" : 
+	{
+		"dimensions" : 
+		{
+			"x" : 10,
+			"y" : 10
 		}
 	},
-
-	"arena": {
-		"dimensions": {
-			"xdim": 10,
-			"ydim": 10
+	"cell" : 
+	{
+		"dimensions" : 
+		{
+			"x" : 1,
+			"y" : 1
 		}
 	},
-
-	"cell": {
-		"dimensions": {
-			"xdim": 1,
-			"ydim": 1
+	"character" : 
+	{
+		"warrior" : 
+		{
+			"dark" : 
+			{
+				"attributes" : 
+				{
+					"damage" : 2,
+					"health" : 1,
+					"range" : 1,
+					"speed" : 1
+				},
+				"cost" : 1000,
+				"count" : 10
+			},
+			"grand" : 
+			{
+				"attributes" : 
+				{
+					"damage" : 5,
+					"health" : 5,
+					"range" : 2,
+					"speed" : 3
+				},
+				"cost" : 7500,
+				"count" : 1
+			},
+			"light" : 
+			{
+				"attributes" : 
+				{
+					"damage" : 1,
+					"health" : 2,
+					"range" : 1,
+					"speed" : 1
+				},
+				"cost" : 1000,
+				"count" : 5
+			},
+			"master" : 
+			{
+				"attributes" : 
+				{
+					"damage" : 3,
+					"health" : 3,
+					"range" : 2,
+					"speed" : 2
+				},
+				"cost" : 5000,
+				"count" : 2
+			}
+		},
+		"wizard" : 
+		{
+			"dark" : 
+			{
+				"attributes" : 
+				{
+					"damage" : 1,
+					"health" : 1,
+					"range" : 2,
+					"speed" : 1
+				},
+				"cost" : 1000,
+				"count" : 10
+			},
+			"grand" : 
+			{
+				"attributes" : 
+				{
+					"damage" : 2,
+					"health" : 3,
+					"range" : 5,
+					"speed" : 5
+				},
+				"cost" : 7500,
+				"count" : 1
+			},
+			"light" : 
+			{
+				"attributes" : 
+				{
+					"damage" : 1,
+					"health" : 1,
+					"range" : 2,
+					"speed" : 2
+				},
+				"cost" : 1000,
+				"count" : 5
+			},
+			"master" : 
+			{
+				"attributes" : 
+				{
+					"damage" : 2,
+					"health" : 2,
+					"range" : 3,
+					"speed" : 3
+				},
+				"cost" : 5000,
+				"count" : 2
+			}
 		}
 	},
-
-	"character": {
-		"dragon": {
-			"attributes": {
-				"range": 5,
-				"speed": 5
-			},
-
-			"count": 0,
-			"cost": 0
+	"game" : 
+	{
+		"mode" : "singleplayer"
+	},
+	"object" : {},
+	"obstacle" : 
+	{
+		"count" : 22
+	},
+	"player" : 
+	{
+		"computer" : 
+		{
+			"coin" : 33000,
+			"team" : "wizard"
 		},
-
-		"warrior": {
-			"grand": {
-				"attributes": {
-					"health":5,
-					"speed": 3,
-					"damage": 5,
-					"range": 2
-				},
-
-				"count": 0,
-				"cost": 0
-			},
-
-			"master": {
-				"attributes": {
-					"health": 3,
-					"speed": 2,
-					"damage": 3,
-					"range": 2
-				},
-
-				"count": 0,
-				"cost": 0
-			},
-
-			"light": {
-				"attributes": {
-					"health": 2,
-					"speed": 1,
-					"damage": 1,
-					"range": 1
-				},
-
-				"count": 0,
-				"cost": 0
-			},
-
-			"dark": {
-				"attributes": {
-					"health": 1,
-					"speed": 1,
-					"damage": 2,
-					"range": 1
-				},
-
-				"count": 0,
-				"cost": 0
-			}
-
+		"first" : 
+		{
+			"coin" : 33000,
+			"team" : "warrior"
 		},
-
-		"wizard": {			
-			"grand": {
-				"attributes": {
-					"health": 3,
-					"speed": 5,
-					"damage": 2,
-					"range": 5
-				},
-
-				"count": 0,
-				"cost": 0
-			},
-
-			"master": {
-				"attributes": {
-					"health": 2,
-					"speed": 3,
-					"damage": 2,
-					"range": 3
-				},
-
-				"count": 0,
-				"cost": 0
-			},
-
-			"light": {
-				"attributes": {
-					"health": 1,
-					"speed": 2,
-					"damage": 1,
-					"range": 2
-				},
-
-				"count": 0,
-				"cost": 0
-			},
-
-			"dark": {
-				"attributes": {
-					"health": 1,
-					"speed": 1,
-					"damage": 1,
-					"range": 2
-				},
-
-				"count": 0,
-				"cost": 0
-			}
-		}			
+		"second" : 
+		{
+			"coin" : 33000,
+			"team" : "wizard"
+		}
 	}
 }

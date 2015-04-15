@@ -16,14 +16,16 @@ debug:
 	mv ./*.o ./build	
 	
 release: 
-	g++ ./src/release/*.cpp ./src/debug/*.cpp -I./include -L./build -o ./bin/midevil
-	./bin/midevil
+	g++ ./src/release/*.cpp ./build/*.o -I./include -o ./bin/midevil
+	./bin/midevil -Wall
+
+run:
 	valgrind --tool=memcheck --leak-check=full --show-leak-kinds=all -v ./bin/midevil -Wall
 
 test:
-	g++ ./src/debug/*.cpp ./src/test/*.cpp -I./include  -L./libs -o ./bin/test
+	g++ ./src/test/*.cpp -I./include -L./build -o ./bin/test
 	./bin/test -Wall
 
 clean:
 	find . -name '*.o' -delete
-	find . -name '*~' -delete	
+	find . -name '*~' -delete

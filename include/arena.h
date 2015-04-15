@@ -1,7 +1,7 @@
 #ifndef ARENA_H
 #define ARENA_H
 
-#include <list>
+#include <vector>
 #include <navigate.h>
 #include <classify.h>
 #include <object.h>
@@ -13,25 +13,28 @@ using navigate::Point;
 
 class Arena {
 private:	
+	static Arena* arena;
 	Point dimensions;
 	Cell*** cells;
 	
-	std::list<Character*> animateObjects;
-	std::list<Obstacle*> inanimateObjects;
+	std::vector<Character*> animateObjects;
+	std::vector<Obstacle*> inanimateObjects;
 
-	Arena(Point);
-
+	Arena();
 	Arena(const Arena& copy);
 	Arena& operator=(const Arena& copy);
 	
-	static Arena* arena;
+	void occupyAnimatedCells(classify::Level, classify::Type,
+		std::vector<navigate::Point>&);
+	void occupyInanimateCells(std::vector<navigate::Point>&);
 
 public:
-	static Arena* getArena(Point);
+	static Arena* getArena();
 
 	void settings();
 	void shuffle();
 	void occupy();
+	void occupyCell(Point, Object*);
 
 	bool foundWinner();
 	string getWinner();

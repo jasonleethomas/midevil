@@ -1,20 +1,12 @@
 #include <iostream>
-#include <algorithm>
-#include <vector>
-#include <stdlib.h>
-#include <time.h>
-#include <unistd.h>
+#include <fstream>
+#include <sstream>
 #include <string>
-
+#include <stdlib.h>
 #include <navigate.h>
 #include <classify.h>
-#include <arena.h>
-#include <cell.h>
-#include <object.h>
-#include <character.h>
-#include <wizard.h>
-#include <warrior.h>
-#include <obstacle.h>
+#include <settings.h>
+#include <game.h>
 
 #if defined(_WIN32) || defined(_WIN64)
 #define clear_screen() system("cls")
@@ -22,37 +14,38 @@
 #define clear_screen() system("clear")
 #endif
 
-using std::vector;
-using classify::Level;
-using classify::Type;
-using navigate::Point;
-using navigate::maxBoundary;
-
-namespace error {
-	bool flag = false;
-	string message;
-}
-
-void occupyArena(Cell***, Point);
-
 int main() {
 
-	Arena* arena = Arena::getArena(maxBoundary);
-	
-	arena->occupy();
+	Game* game = Game::getGame();
 
-	while(!arena->foundWinner()) {
-		clear_screen();
-		std::cout << arena->toString() << std::endl;
-		arena->shuffle();
-		usleep(500000);
-	}
+	game->settings();
 
-	clear_screen();
-	std::cout << arena->toString() 	<< std::endl
-						<< arena->getWinner() << " win! \n\n";
+	char select = 0;
 
-	delete arena;
+	do {
+		std::cout << std::endl
+			<< "1. Start \n"
+			<< "2. Settings \n"
+			<< "3. Quit \n"
+			<< "?. ";
+			
+		std::cin >> select;
+
+		switch(select) {
+		case '1':
+			clear_screen();
+			game->begin();
+			break;
+		case '2':
+			clear_screen();
+			game->updateSettings();
+			break;
+		case '3':
+			std::cout << "\nGood-Bye\n";
+			break;
+		}
+	} while( select != '3');
 
 	return 0;
 }
+
