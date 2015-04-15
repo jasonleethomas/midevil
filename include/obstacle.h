@@ -9,7 +9,7 @@ class Obstacle : public Object {
 public:
 	Obstacle(navigate::Point);
 
-	bool fights();
+	bool isAnimate();
 	std::string toString();
 
 	virtual ~Obstacle() {}

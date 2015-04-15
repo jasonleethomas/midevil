@@ -27,7 +27,7 @@ public:
 	navigate::Point getPosition() const;
 	void setPosition(navigate::Point);
 	
-	virtual bool fights() = 0;
+	virtual bool isAnimate() = 0;
 	virtual string toString() = 0;
 
 	virtual ~Object() {};

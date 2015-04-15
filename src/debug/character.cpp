@@ -63,7 +63,7 @@ int Character::getSpeed() const {
 	return this->speed;
 }
 
-bool Character::fights() {
+bool Character::isAnimate() {
 	return true;
 }
 

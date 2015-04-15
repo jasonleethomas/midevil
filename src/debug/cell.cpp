@@ -1,4 +1,5 @@
 #include <cell.h>
+#include <string>
 #include <stdint.h>
 #include <navigate.h>
 
@@ -23,7 +24,10 @@ Cell::Cell(Point position, Object* object) {
 	this->occupant = object;
 }
 
-Cell::~Cell() {}
+Cell::~Cell() {
+	if(this->occupant)
+		delete this->occupant;
+}
 
 bool Cell::isVacant() const {
 	return this->vacancy;
@@ -53,3 +57,10 @@ Object* Cell::getOccupant() {
 	return this->occupant;
 }
 
+bool Cell::isAnimate() {
+	return false;
+}
+
+std::string Cell::toString() {
+	return " __ ";
+}

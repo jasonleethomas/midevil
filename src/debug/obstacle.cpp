@@ -4,7 +4,7 @@
 
 Obstacle::Obstacle(navigate::Point position) : Object(position) {}
 
-bool Obstacle::fights() {
+bool Obstacle::isAnimate() {
 	return false;
 }
 

@@ -40,7 +40,7 @@ public:
 	virtual int getRange() const;
 	virtual int getSpeed() const;
 	
-	virtual bool fights();
+	virtual bool isAnimate();
 	virtual bool attack(Character*);	
 	virtual void defend(Character*);
 

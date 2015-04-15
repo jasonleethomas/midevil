@@ -12,14 +12,15 @@
 using navigate::Point;
 
 class Arena {
+friend class Portal;
 private:	
 	static Arena* arena;
 	Point dimensions;
 	Cell*** cells;
 	
-	std::vector<Character*> animateObjects;
-	std::vector<Obstacle*> inanimateObjects;
-
+	std::vector<Cell*> animateCells;
+	std::vector<Cell*> inanimateCells;
+	
 	Arena();
 	Arena(const Arena& copy);
 	Arena& operator=(const Arena& copy);

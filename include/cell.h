@@ -1,6 +1,7 @@
 #ifndef CELL_H
 #define CELL_H
 
+#include <string>
 #include <stdint.h>
 #include <navigate.h>
 #include <object.h>
@@ -26,6 +27,9 @@ public:
 	bool occupy(Object*);
 	void vacate();
 
+	virtual bool isAnimate();
+	virtual std::string toString();
+	
 	~Cell();
 };
 #endif
