@@ -55,15 +55,6 @@ void Settings::updateSettings() {
 	this->in.close();	
 }
 
-Json::Value Settings::getGameSettings() {
-
-	Settings* handle = Settings::getHandle();
-	Json::Value settings = handle->getSettings();
-	Json::Value gameSettings = settings["game"];
-
-	return gameSettings;
-}
-
 Json::Value Settings::getArenaSettings() {
 
 	Settings* handle = Settings::getHandle();
@@ -73,14 +64,12 @@ Json::Value Settings::getArenaSettings() {
 	return arenaSettings;
 }
 
-Json::Value Settings::getPlayerSettings(classify::User user) {
-
-	std::string userstring = classify::userToString(user);
+Json::Value Settings::getCellSettings() {
 	Settings* handle = Settings::getHandle();
 	Json::Value settings = handle->getSettings();
-	Json::Value playerSettings = settings["player"];
+	Json::Value cellSettings = settings["cell"];
 
-	return playerSettings[userstring];
+	return cellSettings;
 }
 
 Json::Value Settings::getCharacterSettings(classify::Level level, 
@@ -95,13 +84,31 @@ Json::Value Settings::getCharacterSettings(classify::Level level,
 	return characterSettings[typeString][levelString];
 }
 
-void Settings::setGameSettings(Json::Value gameSettings) {
+Json::Value Settings::getGameSettings() {
 
 	Settings* handle = Settings::getHandle();
-	Json::Value settings = handle->getSettings();	
-	settings["game"] = gameSettings;
+	Json::Value settings = handle->getSettings();
+	Json::Value gameSettings = settings["game"];
 
-	handle->setSettings(settings);
+	return gameSettings;
+}
+
+Json::Value Settings::getObstacleSettings() {
+	Settings* handle = Settings::getHandle();
+	Json::Value settings = handle->getSettings();
+	Json::Value obstacleSettings = settings["obstacle"];
+
+	return obstacleSettings;
+}
+
+Json::Value Settings::getPlayerSettings(classify::User user) {
+
+	std::string userstring = classify::userToString(user);
+	Settings* handle = Settings::getHandle();
+	Json::Value settings = handle->getSettings();
+	Json::Value playerSettings = settings["player"];
+
+	return playerSettings[userstring];
 }
 
 void Settings::setArenaSettings(Json::Value arenaSettings) {
@@ -113,17 +120,13 @@ void Settings::setArenaSettings(Json::Value arenaSettings) {
 	handle->setSettings(settings);
 }
 
-void Settings::setPlayerSettings(classify::User user,
-	Json::Value playerSettings ) {
-
-	std::string userString = classify::userToString(user);
+void Settings::setCellSettings(Json::Value cellSettings) {
 	Settings* handle = Settings::getHandle();
 	Json::Value settings = handle->getSettings();
-	settings["player"][userString] = playerSettings;
+	settings["cell"] = cellSettings;
 
 	handle->setSettings(settings);
 }
-
 
 void Settings::setCharacterSettings(classify::Level level, 
 	classify::Type type, Json::Value characterSettings) {
@@ -138,61 +141,32 @@ void Settings::setCharacterSettings(classify::Level level,
 	handle->setSettings(settings);
 }
 
-namespace gameSettings {
-	void setMode(classify::Mode mode) {
+void Settings::setGameSettings(Json::Value gameSettings) {
 
-		Json::Value gameSettings = Settings::getGameSettings();
-		std::string modeString = classify::modeToString(mode);
-		gameSettings["mode"] = modeString;
+	Settings* handle = Settings::getHandle();
+	Json::Value settings = handle->getSettings();	
+	settings["game"] = gameSettings;
 
-		Settings::setGameSettings(gameSettings);
-	}
-
-	classify::Mode getMode() {
-
-		Json::Value gameSettings = Settings::getGameSettings();
-		std::string modeString = gameSettings["mode"].asString();
-		classify::Mode mode = classify::stringToMode(modeString);
-
-		return mode;
-	}
+	handle->setSettings(settings);
 }
 
-namespace playerSettings {
+void Settings::setObstacleSettings(Json::Value obstacleSettings) {
+	Settings* handle = Settings::getHandle();
+	Json::Value settings = handle->getSettings();
+	settings["obstacle"] = obstacleSettings;
 
-	classify::Type getTeam(classify::User user) {
+	handle->setSettings(settings);
+}
 
-		Json::Value playerSettings = Settings::getPlayerSettings(user);
-		std::string typeString = playerSettings["team"].asString();
-		classify::Type team = classify::stringToType(typeString);
+void Settings::setPlayerSettings(classify::User user,
+	Json::Value playerSettings ) {
 
-		return team;		
-	}
+	std::string userString = classify::userToString(user);
+	Settings* handle = Settings::getHandle();
+	Json::Value settings = handle->getSettings();
+	settings["player"][userString] = playerSettings;
 
-	void setTeam(classify::User user, classify::Type team) {
-
-		Json::Value playerSettings = Settings::getPlayerSettings(user);
-		std::string typeString = typeToString(team);
-		playerSettings["team"] = typeString;
-
-		Settings::setPlayerSettings(user, playerSettings);
-	}
-
-	int getCoin(classify::User user) {
-
-		Json::Value playerSettings = Settings::getPlayerSettings(user);
-		int coin = playerSettings["coin"].asInt();
-
-		return coin;
-	}
-
-	void setCoin(classify::User user, int coin) {
-
-		Json::Value playerSettings = Settings::getPlayerSettings(user);
-		playerSettings["coin"] = coin;
-
-		Settings::setPlayerSettings(user, playerSettings);
-	}
+	handle->setSettings(settings);
 }
 
 namespace arenaSettings {
@@ -216,9 +190,7 @@ namespace arenaSettings {
 	}
 }
 
-namespace obstacleSettings {
-	int getCount() {}
-}
+namespace cellSettings {}
 
 namespace characterSettings {
 	using classify::Level;
@@ -296,6 +268,76 @@ namespace characterSettings {
 		characterSettings["count"] = count;
 
 		Settings::setCharacterSettings(level, type, characterSettings);
+	}
+}
+
+namespace gameSettings {
+	void setMode(classify::Mode mode) {
+
+		Json::Value gameSettings = Settings::getGameSettings();
+		std::string modeString = classify::modeToString(mode);
+		gameSettings["mode"] = modeString;
+
+		Settings::setGameSettings(gameSettings);
+	}
+
+	classify::Mode getMode() {
+		Json::Value gameSettings = Settings::getGameSettings();
+		std::string modeString = gameSettings["mode"].asString();
+		classify::Mode mode = classify::stringToMode(modeString);
+
+		return mode;
+	}
+}
+
+namespace obstacleSettings {
+	int getObstacleCount() {
+		Json::Value obstacleSettings = Settings::getObstacleSettings();
+		int count = obstacleSettings["count"].asInt();
+		
+		return count;
+	}
+
+	void setObstacleCount(int count) {
+		Json::Value obstacleSettings = Settings::getObstacleSettings();
+		obstacleSettings["count"]	= count;
+		Settings::setObstacleSettings(obstacleSettings);
+	}
+}
+
+namespace playerSettings {
+	classify::Type getTeam(classify::User user) {
+
+		Json::Value playerSettings = Settings::getPlayerSettings(user);
+		std::string typeString = playerSettings["team"].asString();
+		classify::Type team = classify::stringToType(typeString);
+
+		return team;		
+	}
+
+	void setTeam(classify::User user, classify::Type team) {
+
+		Json::Value playerSettings = Settings::getPlayerSettings(user);
+		std::string typeString = typeToString(team);
+		playerSettings["team"] = typeString;
+
+		Settings::setPlayerSettings(user, playerSettings);
+	}
+
+	int getCoin(classify::User user) {
+
+		Json::Value playerSettings = Settings::getPlayerSettings(user);
+		int coin = playerSettings["coin"].asInt();
+
+		return coin;
+	}
+
+	void setCoin(classify::User user, int coin) {
+
+		Json::Value playerSettings = Settings::getPlayerSettings(user);
+		playerSettings["coin"] = coin;
+
+		Settings::setPlayerSettings(user, playerSettings);
 	}
 }
 

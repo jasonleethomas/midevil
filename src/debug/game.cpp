@@ -30,6 +30,9 @@ namespace options {
 	classify::Type secondTeamType;
 
 	int numCharacters = 0;
+	int numObstacles = 0;
+	int numPortalCells = 0;
+	int numVacantCells = 0;
 }
 
 struct TeamCount {
@@ -45,6 +48,8 @@ void gameModeSettings();
 void playerTeamSettings();
 void arenaDimensionsSettings();
 void characterCountSettings();
+void obstacleCountSettings();
+void cellCountSettings();
 
 int buyCharacter(classify::Level, classify::Type, int&);
 void readFile(const char*);
@@ -121,6 +126,9 @@ void Game::settings() {
 	readFile(character_story);
 
 	characterCountSettings();
+
+	obstacleCountSettings();
+	cellCountSettings();
 }
 
 void Game::updateSettings() {
@@ -154,6 +162,9 @@ void Game::updateSettings() {
 			break;
 		}
 	} while(select != '5');
+
+	obstacleCountSettings();
+	cellCountSettings();
 }
 
 
@@ -309,6 +320,15 @@ void characterCountSettings() {
 		options::secondTeamType, secondTeamCount.darkCount);
 
 }
+
+void obstacleCountSettings() {
+	options::numObstacles = (int) ((options::arenaDimensions.x 
+		* options::arenaDimensions.y) - options::numCharacters) / 3;
+	
+	obstacleSettings::setObstacleCount(options::numObstacles);	
+}
+
+void cellCountSettings() {}
 
 void readFile(const char* filename) {
 	std::ifstream fin(filename, std::ios_base::out);

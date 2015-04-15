@@ -33,49 +33,34 @@ private:
 public:		
 	static Settings* getHandle();
 	void revertSettings();
-	
-	static Json::Value getGameSettings();
-	static Json::Value getArenaSettings();
-	static Json::Value getPlayerSettings(classify::User);
+
+	static Json::Value getArenaSettings();	
+	static Json::Value getCellSettings();
 	static Json::Value getCharacterSettings(classify::Level,
 	 classify::Type);
+	static Json::Value getGameSettings();
+	static Json::Value getObstacleSettings();
+	static Json::Value getPlayerSettings(classify::User);
 
-	static void setGameSettings(Json::Value);
 	static void setArenaSettings(Json::Value);
-	static void setPlayerSettings(classify::User, Json::Value);
+	static void setCellSettings(Json::Value);
 	static void setCharacterSettings(classify::Level, 
 		classify::Type, Json::Value);
+	static void setGameSettings(Json::Value);
+	static void setObstacleSettings(Json::Value);
+	static void setPlayerSettings(classify::User, Json::Value);
 
 	~Settings();
 };
-
-using classify::Type;
-using classify::Level;
-
-namespace gameSettings {
-	void setMode(classify::Mode);
-	classify::Mode getMode();
-}
-
-namespace playerSettings {
-	classify::Type getTeam(classify::User);
-	int getCoin(classify::User);
-	void setTeam(classify::User, classify::Type);
-	void setCoin(classify::User, int);
-}
 
 namespace arenaSettings {
 	navigate::Point getDimensions();
 	void setDimensions(navigate::Point);
 }
 
-namespace obstacleSettings {
-	int getCount();
-	void setCount(int);
-}
+namespace cellSettings {}
 
 namespace characterSettings {
-
 	int getCharacterHealth(classify::Level, classify::Type);
 	int getCharacterSpeed(classify::Level, classify::Type);
 	int getCharacterRange(classify::Level, classify::Type);
@@ -85,6 +70,23 @@ namespace characterSettings {
 
 	void setCharacterCost(classify::Level, classify::Type, int);
 	void setCharacterCount(classify::Level, classify::Type, int);
+}
+
+namespace gameSettings {
+	void setMode(classify::Mode);
+	classify::Mode getMode();
+}
+
+namespace obstacleSettings {
+	int getObstacleCount();
+	void setObstacleCount(int);
+}
+
+namespace playerSettings {
+	classify::Type getTeam(classify::User);
+	int getCoin(classify::User);
+	void setTeam(classify::User, classify::Type);
+	void setCoin(classify::User, int);
 }
 
 std::string intToString(int);

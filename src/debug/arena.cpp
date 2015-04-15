@@ -166,9 +166,10 @@ void Arena::occupy() {
 	occupyAnimatedCells(classify::Dark, classify::Warrior,
 		randomPoints);
 
+	occupyInanimateCells(randomPoints);
+
 	std::random_shuffle(this->animateObjects.begin(), 
 		this->animateObjects.end());
-
 }
 
 void Arena::occupyAnimatedCells(classify::Level level,
@@ -235,8 +236,21 @@ void Arena::occupyAnimatedCells(classify::Level level,
 	}	
 }
 
+void Arena::occupyInanimateCells(
+	std::vector<navigate::Point>& points) {
 
-void Arena::occupyInanimateCells(std::vector<navigate::Point>&) {}
+	int numObstacles = obstacleSettings::getObstacleCount();
+
+	for(int i = 0; i < numObstacles; i++) {
+		navigate::Point thisPoint = points.back();
+		points.pop_back();
+		
+		Object* thisObject = (Object*) new Obstacle(thisPoint);
+		this->cells[thisPoint.x][thisPoint.y]->occupy(thisObject);
+
+		this->inanimateObjects.push_back((Obstacle*) thisObject);
+	}
+}
 
 bool Arena::foundWinner() {
 	return (Teams::wizards < 1 || Teams::warriors < 1);
