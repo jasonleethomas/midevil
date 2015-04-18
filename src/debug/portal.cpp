@@ -11,16 +11,20 @@ Portal::Portal(navigate::Point position, Object* occupant)
 	: Cell(position, occupant) {}
 	
 void Portal::transportOccupant(Arena* arena) {
-	Object* thisOccupant = this->getOccupant();
+	if(!this->isVacant()) {
+		Object* thisOccupant = this->getOccupant();
 	
-	navigate::Point thisPoint = this->getPosition();
+		navigate::Point thatPoint;
+		thatPoint.x = rand() % arena->dimensions.x;
+		thatPoint.y = rand() % arena->dimensions.y;
 	
-	navigate::Point thatPoint;
-	thatPoint.x = rand() % arena->dimensions.x;
-	thatPoint.y = rand() % arena->dimensions.y;
-	
-	arena->cells[thatPoint.x][thatPoint.y]->occupy(thisOccupant);
-	this->vacate();
+		Cell* thatCell =	arena->cells[thatPoint.x][thatPoint.y];
+
+		if(thatCell->isVacant()) {
+			thatCell->occupy(thisOccupant);
+			this->vacate();
+		}		
+	}
 }
 
 bool Portal::isAnimate() {

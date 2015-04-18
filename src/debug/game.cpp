@@ -101,7 +101,7 @@ void Game::begin() {
 		std::cout << arena->toString();
 		arena->shuffle();
 
-		usleep(75000);
+		usleep(500000);
 
 	} while(!arena->foundWinner());
 
@@ -264,7 +264,6 @@ void arenaDimensionsSettings() {
 	options::arenaDimensions.y = ydim;
 
 	arenaSettings::setDimensions(options::arenaDimensions);
-
 }
 
 void characterCountSettings() {

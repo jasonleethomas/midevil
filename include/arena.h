@@ -18,16 +18,17 @@ private:
 	Point dimensions;
 	Cell*** cells;
 	
-	std::vector<Cell*> animateCells;
-	std::vector<Cell*> inanimateCells;
+	std::vector<Cell*> portals;
+	std::vector<Character*> characters;
+	std::vector<Obstacle*> obstacles;
 	
 	Arena();
 	Arena(const Arena& copy);
 	Arena& operator=(const Arena& copy);
 	
-	void occupyAnimatedCells(classify::Level, classify::Type,
+	void occupyCharacters(classify::Level, classify::Type,
 		std::vector<navigate::Point>&);
-	void occupyInanimateCells(std::vector<navigate::Point>&);
+	void occupyObstacles(std::vector<navigate::Point>&);
 
 public:
 	static Arena* getArena();

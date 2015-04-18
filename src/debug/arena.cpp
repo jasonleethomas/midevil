@@ -38,19 +38,21 @@ Arena::Arena() {
 	for(int x = 0; x < this->dimensions.x; x++) {
 		this->cells[x] = new Cell*[this->dimensions.y];
 		for(int y = 0; y < this->dimensions.y; y++) {
+			Cell* thisCell;			
 			navigate::Point thisPoint;
 			thisPoint.x = x;
 			thisPoint.y = y;
 			
 			int randCell = rand() % 10;
-						
-			if(randCell < 2) {
-				Cell* thisCell = (Cell*) new Portal(thisPoint);
-				this->cells[x][y] = thisCell;
-				this->animateCells.push_back(thisCell);
+			// 1/10 chance of cell being a portal			
+			if(randCell < 1) {
+				thisCell = (Cell*) new Portal(thisPoint);
+				this->portals.push_back(thisCell);
 			}
-			
-			this->cells[x][y] = new Cell(thisPoint);
+			else
+				thisCell = new Cell(thisPoint);
+
+			this->cells[x][y] = thisCell;
 		}
 	}
 }
@@ -64,6 +66,14 @@ Arena::~Arena() {
 	}
 
 	delete [] this->cells;
+
+
+	std::vector<Character*>::iterator thisCharacter 
+		= this->characters.begin();
+	for(; thisCharacter != this->characters.end(); thisCharacter++) {
+		if(*thisCharacter)
+			delete *thisCharacter;
+	}
 }
 
 Arena* Arena::getArena() {
@@ -74,63 +84,66 @@ Arena* Arena::getArena() {
 
 void Arena::shuffle() {
 
-	Cell* thisCell = this->animateCells.back();
-	
-	if(thisCell->isAnimate()) {
-		Portal* thisPortal = (Portal*) thisCell;
-		thisPortal->transportOccupant(this);
-	}
-	else {	
-		Character* thisCharacter = (Character*) thisCell->getOccupant();
+	Character* thisCharacter = this->characters.back();
 
-		if(!thisCharacter->isDead()) {
-			for(int moves = 0; moves < thisCharacter->getSpeed(); moves++) 			{
-				Point thisPoint = thisCharacter->getPosition();
-				Point thatPoint;
-				thatPoint.x = (thisPoint.x 
-					+ (rand() % thisCharacter->getRange())) 
-						% this->dimensions.x;
-				thatPoint.y = (thisPoint.y 
-					+ (rand() % thisCharacter->getRange())) 
-						% this->dimensions.y;
+	if(!thisCharacter->isDead()) {
+		for(int moves = 0; moves < thisCharacter->getSpeed(); 
+			moves++) {
 
-				Cell* thisCell = this->cells[thisPoint.x][thisPoint.y];
-				Cell* thatCell = this->cells[thatPoint.x][thatPoint.y];
+			Point thisPoint = thisCharacter->getPosition();
+			Point thatPoint;
+			thatPoint.x = (thisPoint.x 
+				+ (rand() % thisCharacter->getRange())) 
+					% this->dimensions.x;
+			thatPoint.y = (thisPoint.y 
+				+ (rand() % thisCharacter->getRange())) 
+					% this->dimensions.y;
 
-				if(thatCell->isVacant()) {
-					thatCell->occupy(thisCharacter);
-					thisCell->vacate();
-				}
+			Cell* thisCell = this->cells[thisPoint.x][thisPoint.y];
+			Cell* thatCell = this->cells[thatPoint.x][thatPoint.y];
 
-				else {
-					Object* thatObject = thatCell->getOccupant();
-		
-					if(thatObject->isAnimate()) {
-						Character* thatCharacter = (Character*) thatObject;
+			if(thatCell->isVacant()) {
+				thatCell->occupy(thisCharacter);
+				thisCell->vacate();
+			}
 
-						thisCharacter->attack(thatCharacter);
-						if(thatCharacter->isDead()) {
-							thatCell->vacate();
-							thatCell->occupy(thisCharacter);
-							thisCell->vacate();
+			else {
+				Object* thatObject = thatCell->getOccupant();
 
-							switch(thatCharacter->getType()) {
-							case classify::Warrior:
-								Teams::warriors--;
-								break;
-							case classify::Wizard:
-								Teams::wizards--;
-								break;
-							}
+				if(thatObject->isAnimate()) {
+					Character* thatCharacter = (Character*) thatObject;
+					thisCharacter->attack(thatCharacter);
+
+					if(thatCharacter->isDead()) {
+						thatCell->vacate();
+						thatCell->occupy(thisCharacter);
+						thisCell->vacate();
+
+						switch(thatCharacter->getType()) {
+						case classify::Warrior:
+							Teams::warriors--;
+							break;
+						case classify::Wizard:
+							Teams::wizards--;
+							break;
 						}
 					}
-				}	
-			}
+				}
+			}	
 		}
+
+		this->characters.insert(this->characters.begin(),
+			thisCharacter);
 	}
-	
-	animateCells.insert(animateCells.begin(), thisCell);
-	animateCells.pop_back();
+
+	this->characters.pop_back();
+
+	std::vector<Cell*>::iterator itr = this->portals.begin();
+
+	for(; itr != this->portals.end(); itr++) {
+		Portal* thisPortal = (Portal*) *itr;
+		thisPortal->transportOccupant(this);
+	}
 }
 
 void Arena::occupy() {
@@ -152,30 +165,30 @@ void Arena::occupy() {
 
 	std::random_shuffle(randomPoints.begin(), randomPoints.end());
 	
-	occupyAnimatedCells(classify::Grand, classify::Wizard,
+	occupyCharacters(classify::Grand, classify::Wizard,
 		randomPoints);
-	occupyAnimatedCells(classify::Grand, classify::Warrior,
+	occupyCharacters(classify::Grand, classify::Warrior,
 		randomPoints);
-	occupyAnimatedCells(classify::Master, classify::Wizard,
+	occupyCharacters(classify::Master, classify::Wizard,
 		randomPoints);
-	occupyAnimatedCells(classify::Master, classify::Warrior,
+	occupyCharacters(classify::Master, classify::Warrior,
 		randomPoints);
-	occupyAnimatedCells(classify::Light, classify::Wizard,
+	occupyCharacters(classify::Light, classify::Wizard,
 		randomPoints);
-	occupyAnimatedCells(classify::Light, classify::Warrior,
+	occupyCharacters(classify::Light, classify::Warrior,
 		randomPoints);
-	occupyAnimatedCells(classify::Dark, classify::Wizard,
+	occupyCharacters(classify::Dark, classify::Wizard,
 		randomPoints);
-	occupyAnimatedCells(classify::Dark, classify::Warrior,
+	occupyCharacters(classify::Dark, classify::Warrior,
 		randomPoints);
 
-	occupyInanimateCells(randomPoints);
+	occupyObstacles(randomPoints);
 
-	std::random_shuffle(this->animateCells.begin(), 
-		this->animateCells.end());
+	std::random_shuffle(this->characters.begin(), 
+		this->characters.end());
 }
 
-void Arena::occupyAnimatedCells(classify::Level level,
+void Arena::occupyCharacters(classify::Level level,
 	classify::Type type, std::vector<navigate::Point>& points) {
 
 	int numCharacters 
@@ -186,26 +199,22 @@ void Arena::occupyAnimatedCells(classify::Level level,
 		
 		Cell* thisCell = this->cells[thisPoint.x][thisPoint.y];
 		
-		Object* thisObject;
+		Character* thisCharacter;
 
 		switch(type) {
 		case classify::Wizard:
 			switch(level) {
 				case classify::Grand:
-					thisObject = 
-						(Object*) new GrandWizard(thisPoint);
+					thisCharacter = new GrandWizard(thisPoint);
 					break;
 				case classify::Master:
-					thisObject = 
-						(Object*) new MasterWizard(thisPoint);				
+					thisCharacter = new MasterWizard(thisPoint);				
 					break;
 				case classify::Light:
-					thisObject = 
-						(Object*) new LightWizard(thisPoint);				
+					thisCharacter = new LightWizard(thisPoint);				
 					break;
 				case classify::Dark:
-					thisObject = 
-						(Object*) new DarkWizard(thisPoint);				
+					thisCharacter = new DarkWizard(thisPoint);				
 					break;
 			}
 			Teams::wizards++;
@@ -213,35 +222,31 @@ void Arena::occupyAnimatedCells(classify::Level level,
 		case classify::Warrior:
 			switch(level) {
 				case classify::Grand:
-					thisObject = 
-						(Object*) new GrandWarrior(thisPoint);				
+					thisCharacter = new GrandWarrior(thisPoint);				
 					break;
 				case classify::Master:
-					thisObject = 
-						(Object*) new MasterWarrior(thisPoint);				
+					thisCharacter = new MasterWarrior(thisPoint);				
 					break;
 				case classify::Light:
-					thisObject = 
-						(Object*) new LightWarrior(thisPoint);				
+					thisCharacter = new LightWarrior(thisPoint);				
 					break;
 				case classify::Dark:
-					thisObject = 
-						(Object*) new DarkWarrior(thisPoint);				
+					thisCharacter = new DarkWarrior(thisPoint);				
 					break;
 			}
 			Teams::warriors++;
 			break;		
 		}
 
-		thisCell->occupy(thisObject);
+		thisCell->occupy((Object*) thisCharacter);
 		
-		this->animateCells.push_back(thisCell);
+		this->characters.push_back(thisCharacter);
 	
 		points.pop_back();
 	}	
 }
 
-void Arena::occupyInanimateCells(
+void Arena::occupyObstacles(
 	std::vector<navigate::Point>& points) {
 
 	int numObstacles = obstacleSettings::getObstacleCount();
@@ -251,11 +256,11 @@ void Arena::occupyInanimateCells(
 		
 		Cell* thisCell = this->cells[thisPoint.x][thisPoint.y];
 		
-		Object* thisObject = (Object*) new Obstacle(thisPoint);
+		Obstacle* thisObstacle = new Obstacle(thisPoint);
 		
-		thisCell->occupy(thisObject);
+		thisCell->occupy((Object*) thisObstacle);
 		
-		this->inanimateCells.push_back(thisCell);
+		this->obstacles.push_back(thisObstacle);
 		
 		points.pop_back();
 	}
