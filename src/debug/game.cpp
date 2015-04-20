@@ -42,7 +42,8 @@ struct TeamCount {
 	int darkCount;
 } firstTeamCount, secondTeamCount;
 
-TeamCount selectTeam(classify::User, classify::Type);
+TeamCount userCharacterCount(classify::User, classify::Type);
+TeamCount randomCharacterCount(int numCharacters);
 
 void gameModeSettings();
 void playerTeamSettings();
@@ -54,28 +55,10 @@ void cellCountSettings();
 int buyCharacter(classify::Level, classify::Type, int&);
 void readFile(const char*);
 std::string intToStars(int);
-
-
 std::string attributesToString(classify::Level,
 	classify::Type);
+
 Game::Game() {
-	this->mode = gameSettings::getMode();
-
-	switch(this->mode) {
-	case classify::Singleplayer:
-		this->players[0] = new Player(classify::First);
-		this->players[1] = new Player(classify::Computer);
-		break;
-	case classify::Multiplayer:
-		this->players[0] = new Player(classify::First);
-		this->players[1] = new Player(classify::Second);
-		break;
-	case classify::Simulation:
-		this->players[0] = new Player(classify::Computer);
-		this->players[1] = new Player(classify::Computer);
-		break;
-	}
-
 	this->arena = Arena::getArena();
 };
 
@@ -85,12 +68,7 @@ Game* Game::getGame() {
 	return &game;
 }
 
-Game::~Game() {
-
-	delete this->players[0];
-	delete this->players[1];
-
-}
+Game::~Game() {}
 
 void Game::begin() {
 	
@@ -101,7 +79,7 @@ void Game::begin() {
 		std::cout << arena->toString();
 		arena->shuffle();
 
-		usleep(500000);
+		usleep(250000);
 
 	} while(!arena->foundWinner());
 
@@ -109,26 +87,28 @@ void Game::begin() {
 }
 
 
-void Game::settings() {
-
+void Game::settings() {	
+	clear_screen();
 	readFile(mode_story);
-
 	gameModeSettings();
 
-	readFile(team_story);
+	classify::Mode gameMode = gameSettings::getMode();
 
+	clear_screen();
+	if(gameMode != classify::Simulation)
+		readFile(team_story);
 	playerTeamSettings();
-	
-	readFile(dimensions_story);
 
+	clear_screen();
+	readFile(dimensions_story);
 	arenaDimensionsSettings();
 
-	readFile(character_story);
-
+	clear_screen();
+	if(gameMode != classify::Simulation)
+		readFile(character_story);
 	characterCountSettings();
 
 	obstacleCountSettings();
-	cellCountSettings();
 }
 
 void Game::updateSettings() {
@@ -150,12 +130,16 @@ void Game::updateSettings() {
 		switch(select) {
 		case '1':
 			gameModeSettings();
+			playerTeamSettings();
+			characterCountSettings();
 			break;
 		case '2':
 			playerTeamSettings();
+			characterCountSettings();
 			break;
 		case '3':
 			arenaDimensionsSettings();
+			characterCountSettings();
 			break;
 		case '4':
 			characterCountSettings();
@@ -164,9 +148,7 @@ void Game::updateSettings() {
 	} while(select != '5');
 
 	obstacleCountSettings();
-	cellCountSettings();
 }
-
 
 void gameModeSettings() {
 	char mode = 0;
@@ -174,25 +156,31 @@ void gameModeSettings() {
 	do {
 
 		std::cout << std::endl
-			<< "1. Singleplayer \n"
-			<< "2. Multiplayer 	\n"
+			<< "1. Singleplayer\n"
+			<< "2. Multiplayer\n"
+			<< "3. Simulation\n"
 			<< "?: ";
 
 		std::cin >> mode;
 		std::cout << std::endl;
 
-		if(!(mode == '1' || mode == '2'))
-			std::cout << "enter 1 or 2";
+		if(!(mode == '1' || mode == '2' || mode == '3'))
+			std::cout << "enter 1, 2, or 3";
 
-	} while (!(mode == '1' || mode == '2'));
+	} while (!(mode == '1' || mode == '2' || mode == '3'));
 	
 	switch(mode) {
 	case '1':
 		options::gameMode = classify::Singleplayer;
-	break;
+		break;
 	case '2':
 		options::gameMode = classify::Multiplayer;
-	break;
+		break;
+	case '3':
+		options::gameMode = classify::Simulation;
+		break;
+	default:
+		options::gameMode = classify::Simulation;
 	}
 
 	gameSettings::setMode(options::gameMode);
@@ -200,31 +188,39 @@ void gameModeSettings() {
 
 void playerTeamSettings() {
 
-	char team = 0;
-	do {
+	classify::Mode gameMode = gameSettings::getMode();
 
-		std::cout << std::endl
-			<< "1. Warriors \n"
-			<< "2. Wizards	\n"
-			<< "?.";
+	if(gameMode != classify::Simulation) {
+		char team = 0;
+		do {
 
-		std::cin >> team;
-		std::cout << std::endl;
+			std::cout << std::endl
+				<< "1. Warriors \n"
+				<< "2. Wizards	\n"
+				<< "?.";
 
-		if(!(team == '1' || team == '2'))
-			std::cout << "enter 1 or 2";
+			std::cin >> team;
+			std::cout << std::endl;
 
-	} while(!(team == '1' || team == '2'));
+			if(!(team == '1' || team == '2'))
+				std::cout << "enter 1 or 2";
 
-	switch(team) {
-	case '1':
+		} while(!(team == '1' || team == '2'));
+
+		switch(team) {
+		case '1':
+			options::firstTeamType = classify::Warrior;
+			options::secondTeamType = classify::Wizard;
+			break;
+		case '2':
+			options::firstTeamType = classify::Wizard;
+			options::secondTeamType = classify::Warrior;
+			break;
+		}
+	}
+	else {
 		options::firstTeamType = classify::Warrior;
 		options::secondTeamType = classify::Wizard;
-		break;
-	case '2':
-		options::firstTeamType = classify::Wizard;
-		options::secondTeamType = classify::Warrior;
-		break;
 	}
 
 	playerSettings::setTeam(classify::First, 
@@ -273,31 +269,31 @@ void characterCountSettings() {
 	int area = dimensions.x * dimensions.y;
 
 	options::numCharacters = (int) (area / 3);
-	int characterCost = 
+	int minCharacterCost = 
 		characterSettings::getCharacterCost(classify::Light,
 			options::firstTeamType);
 
-	int playerCoin = options::numCharacters * characterCost;
+	int playerCoin = options::numCharacters * minCharacterCost;
 
 	playerSettings::setCoin(classify::First, playerCoin);
 	playerSettings::setCoin(classify::Second, playerCoin);
-	playerSettings::setCoin(classify::Computer, playerCoin);
 
 	switch(options::gameMode) {
 	case classify::Singleplayer:
-		firstTeamCount = selectTeam(classify::First, 
+		firstTeamCount = userCharacterCount(classify::First, 
 			options::firstTeamType);
-		secondTeamCount = firstTeamCount;
+		secondTeamCount = randomCharacterCount(options::numCharacters);
 		break;
 	case classify::Multiplayer:
-		firstTeamCount = selectTeam(classify::First, 
+		firstTeamCount = userCharacterCount(classify::First, 
 			options::firstTeamType);
-		secondTeamCount = selectTeam(classify::Second,
+		secondTeamCount = userCharacterCount(classify::Second,
 			options::secondTeamType);
 		break;
-	break;
 	case classify::Simulation:
-	break;
+		firstTeamCount = randomCharacterCount(options::numCharacters);
+		secondTeamCount = randomCharacterCount(options::numCharacters);
+		break;
 	}
 
 	characterSettings::setCharacterCount(classify::Grand, 
@@ -317,7 +313,6 @@ void characterCountSettings() {
 		options::secondTeamType, secondTeamCount.lightCount);
 	characterSettings::setCharacterCount(classify::Light, 
 		options::secondTeamType, secondTeamCount.darkCount);
-
 }
 
 void obstacleCountSettings() {
@@ -326,8 +321,6 @@ void obstacleCountSettings() {
 	
 	obstacleSettings::setObstacleCount(options::numObstacles);	
 }
-
-void cellCountSettings() {}
 
 void readFile(const char* filename) {
 	std::ifstream fin(filename, std::ios_base::out);
@@ -340,7 +333,7 @@ void readFile(const char* filename) {
 	fin.close();
 } 
 
-TeamCount selectTeam(classify::User user, classify::Type team) {
+TeamCount userCharacterCount(classify::User user, classify::Type team) {
 
 	std::string playerString = classify::userToString(user) 
 		+ " player";
@@ -369,6 +362,8 @@ TeamCount selectTeam(classify::User user, classify::Type team) {
 		team, coin);
 	teamCount.darkCount = buyCharacter(classify::Dark, 
 		team, coin);
+
+	playerSettings::setCoin(user, coin);
 
 	return teamCount;
 }
@@ -454,3 +449,20 @@ std::string intToStars(int times) {
 	return stars;
 }
 
+TeamCount randomCharacterCount(int numCharacters) {
+	TeamCount characterCount = {0,0,0,0};
+
+	for(int i = 0; i < numCharacters; i++) {
+		int randSeed = rand() % 10;
+		if(randSeed < 1)
+			characterCount.grandCount += 1;
+		else if(randSeed < 3)
+			characterCount.masterCount += 1;
+		else if(randSeed < 6)
+			characterCount.lightCount += 1;
+		else if(randSeed <= 9)
+			characterCount.darkCount += 1;
+	}
+
+	return characterCount;
+}

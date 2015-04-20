@@ -67,12 +67,12 @@ Arena::~Arena() {
 
 	delete [] this->cells;
 
-
-	std::vector<Character*>::iterator thisCharacter 
+	std::vector<Character*>::iterator iterator
 		= this->characters.begin();
-	for(; thisCharacter != this->characters.end(); thisCharacter++) {
-		if(*thisCharacter)
-			delete *thisCharacter;
+	for(; iterator != this->characters.end(); iterator++) {
+		Character* thisCharacter = *iterator;
+		if(thisCharacter)
+			delete thisCharacter;
 	}
 }
 

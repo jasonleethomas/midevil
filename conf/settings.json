@@ -3,8 +3,8 @@
 	{
 		"dimensions" : 
 		{
-			"x" : 10,
-			"y" : 10
+			"x" : 15,
+			"y" : 15
 		}
 	},
 	"cell" : 
@@ -29,7 +29,7 @@
 					"speed" : 1
 				},
 				"cost" : 1000,
-				"count" : 10
+				"count" : 20
 			},
 			"grand" : 
 			{
@@ -41,7 +41,7 @@
 					"speed" : 3
 				},
 				"cost" : 7500,
-				"count" : 1
+				"count" : 7
 			},
 			"light" : 
 			{
@@ -53,7 +53,7 @@
 					"speed" : 1
 				},
 				"cost" : 1000,
-				"count" : 5
+				"count" : 39
 			},
 			"master" : 
 			{
@@ -65,7 +65,7 @@
 					"speed" : 2
 				},
 				"cost" : 5000,
-				"count" : 2
+				"count" : 9
 			}
 		},
 		"wizard" : 
@@ -80,7 +80,7 @@
 					"speed" : 1
 				},
 				"cost" : 1000,
-				"count" : 10
+				"count" : 17
 			},
 			"grand" : 
 			{
@@ -92,7 +92,7 @@
 					"speed" : 5
 				},
 				"cost" : 7500,
-				"count" : 1
+				"count" : 11
 			},
 			"light" : 
 			{
@@ -104,7 +104,7 @@
 					"speed" : 2
 				},
 				"cost" : 1000,
-				"count" : 5
+				"count" : 31
 			},
 			"master" : 
 			{
@@ -116,18 +116,18 @@
 					"speed" : 3
 				},
 				"cost" : 5000,
-				"count" : 2
+				"count" : 16
 			}
 		}
 	},
 	"game" : 
 	{
-		"mode" : "singleplayer"
+		"mode" : "simulation"
 	},
 	"object" : {},
 	"obstacle" : 
 	{
-		"count" : 22
+		"count" : 50
 	},
 	"player" : 
 	{
@@ -138,12 +138,12 @@
 		},
 		"first" : 
 		{
-			"coin" : 33000,
+			"coin" : 75000,
 			"team" : "warrior"
 		},
 		"second" : 
 		{
-			"coin" : 33000,
+			"coin" : 75000,
 			"team" : "wizard"
 		}
 	}

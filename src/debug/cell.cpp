@@ -24,10 +24,7 @@ Cell::Cell(Point position, Object* object) {
 	this->occupant = object;
 }
 
-Cell::~Cell() {
-	if(this->occupant)
-		delete this->occupant;
-}
+Cell::~Cell() {}
 
 bool Cell::isVacant() const {
 	return this->vacancy;
