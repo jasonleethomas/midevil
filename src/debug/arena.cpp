@@ -30,49 +30,30 @@ namespace Teams {
 
 Arena* Arena::arena = 0;
 
-Arena::Arena() {
+Arena::Arena() {}
 
-	this->dimensions = arenaSettings::getDimensions();
+Arena::~Arena() {}
 
-	this->cells = new Cell**[this->dimensions.x];
-	for(int x = 0; x < this->dimensions.x; x++) {
-		this->cells[x] = new Cell*[this->dimensions.y];
-		for(int y = 0; y < this->dimensions.y; y++) {
-			Cell* thisCell;			
-			navigate::Point thisPoint;
-			thisPoint.x = x;
-			thisPoint.y = y;
-			
-			int randCell = rand() % 10;
-			// 1/10 chance of cell being a portal			
-			if(randCell < 1) {
-				thisCell = (Cell*) new Portal(thisPoint);
-				this->portals.push_back(thisCell);
-			}
-			else
-				thisCell = new Cell(thisPoint);
-
-			this->cells[x][y] = thisCell;
-		}
-	}
-}
-
-Arena::~Arena() {
+void Arena::empty() {
 	for(int x = 0; x < this->dimensions.x; x++) {
 		for(int y = 0; y < this->dimensions.y; y++)
 			delete this->cells[x][y];
-			
+	
 		delete [] this->cells[x];
 	}
 
 	delete [] this->cells;
 
-	std::vector<Character*>::iterator iterator
-		= this->characters.begin();
-	for(; iterator != this->characters.end(); iterator++) {
-		Character* thisCharacter = *iterator;
-		if(thisCharacter)
-			delete thisCharacter;
+	for(int i = 0; i < this->characters.size(); i++) {
+		Character* thisCharacter = this->characters[i];
+
+		delete thisCharacter;
+	}
+
+	for(int i = 0; i < this->obstacles.size(); i++) {
+		Obstacle* thisObstacle = this->obstacles[i];
+
+		delete thisObstacle;
 	}
 }
 
@@ -147,6 +128,30 @@ void Arena::shuffle() {
 }
 
 void Arena::occupy() {
+	this->dimensions = arenaSettings::getDimensions();
+
+	this->cells = new Cell**[this->dimensions.x];
+	for(int x = 0; x < this->dimensions.x; x++) {
+		this->cells[x] = new Cell*[this->dimensions.y];
+		for(int y = 0; y < this->dimensions.y; y++) {
+			Cell* thisCell;			
+			navigate::Point thisPoint;
+			thisPoint.x = x;
+			thisPoint.y = y;
+			
+			int randCell = rand() % 10;
+			// 1/10 chance of cell being a portal			
+			if(randCell < 1) {
+				thisCell = (Cell*) new Portal(thisPoint);
+				this->portals.push_back(thisCell);
+			}
+			else
+				thisCell = new Cell(thisPoint);
+
+			this->cells[x][y] = thisCell;
+		}
+	}
+
 	srand(time(NULL));
 	
 	using namespace characterSettings;
@@ -252,6 +257,7 @@ void Arena::occupyObstacles(
 	int numObstacles = obstacleSettings::getObstacleCount();
 
 	for(int i = 0; i < numObstacles; i++) {
+
 		navigate::Point thisPoint = points.back();
 		
 		Cell* thisCell = this->cells[thisPoint.x][thisPoint.y];

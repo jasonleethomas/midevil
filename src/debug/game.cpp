@@ -58,9 +58,7 @@ std::string intToStars(int);
 std::string attributesToString(classify::Level,
 	classify::Type);
 
-Game::Game() {
-	this->arena = Arena::getArena();
-};
+Game::Game() {}
 
 Game* Game::getGame() {
 	static Game game;
@@ -71,7 +69,8 @@ Game* Game::getGame() {
 Game::~Game() {}
 
 void Game::begin() {
-	
+
+	this->arena = Arena::getArena();
 	this->arena->occupy();
 
 	do {
@@ -84,8 +83,9 @@ void Game::begin() {
 	} while(!arena->foundWinner());
 
 	std::cout << arena->getWinner() << " wins! \n";
-}
 
+	this->arena->empty();
+}
 
 void Game::settings() {	
 	clear_screen();
@@ -118,34 +118,28 @@ void Game::updateSettings() {
 	do {
 		std::cout << std::endl
 			<< "Settings \n"
-			<< "1. Mode	\n"
-			<< "2. Teams \n"
-			<< "3. Dimensions \n"
-			<< "4. Characters \n"
-			<< "5. Return \n"
+			<< "1. Teams \n"
+			<< "2. Dimensions \n"
+			<< "3. Characters \n"
+			<< "4. Return \n"
 			<< "?. ";
 
 		std::cin >> select;
 
 		switch(select) {
 		case '1':
-			gameModeSettings();
 			playerTeamSettings();
 			characterCountSettings();
 			break;
 		case '2':
-			playerTeamSettings();
-			characterCountSettings();
-			break;
-		case '3':
 			arenaDimensionsSettings();
 			characterCountSettings();
 			break;
-		case '4':
+		case '3':
 			characterCountSettings();
 			break;
 		}
-	} while(select != '5');
+	} while(select != '4');
 
 	obstacleCountSettings();
 }
